@@ -1,0 +1,1013 @@
+==============================================================================================================================
+                                                   CREARE TABELE
+==============================================================================================================================
+CREATE TABLE Secretariat
+(ID_Secretariat NUMBER(5) PRIMARY KEY,
+ Telefon VARCHAR2(10));
+
+CREATE TABLE Facultate
+(ID_Facultate NUMBER(5) PRIMARY KEY,
+ ID_Secretariat NUMBER(5) CONSTRAINT secretariat_fk REFERENCES Secretariat(ID_Secretariat),
+ Nume VARCHAR2(50),
+ Adresa VARCHAR2(50));
+
+ALTER TABLE Facultate DROP ID_Secretariat CASCADE CONSTRAINTS;
+
+CREATE TABLE Sectie
+(ID_Sectie NUMBER(5) PRIMARY KEY,
+ ID_Facultate NUMBER(5) CONSTRAINT facultate_fk REFERENCES Facultate(ID_Facultate),
+ Nume VARCHAR2(30));
+
+CREATE TABLE Subsectie
+(ID_Subsectie NUMBER(5) PRIMARY KEY,
+ ID_Sectie NUMBER(5) CONSTRAINT sectie_fk REFERENCES Sectie(ID_Sectie),
+ Nume VARCHAR2(50));
+
+CREATE TABLE Persoana
+(CNP NUMBER(13) PRIMARY KEY,
+ Nume VARCHAR2(30),
+ Prenume VARCHAR2(30),
+ Data_Nastere DATE,
+ Sex VARCHAR2(1),
+ Locul_Nasterii VARCHAR2(50));
+
+CREATE TABLE Profesor(
+ ID_Profesor NUMBER(5) PRIMARY KEY,
+ CNP NUMBER(13) CONSTRAINT cnp_fk REFERENCES Persoana(CNP),
+ Nr_Lucrari NUMBER(2),
+ Vechime NUMBER(2));
+
+CREATE TABLE Student(
+ Nr_Matricol NUMBER(5) PRIMARY KEY,
+ CNP NUMBER(13) CONSTRAINT cnp2_fk REFERENCES Persoana(CNP),
+ ID_Subsectie NUMBER(5) CONSTRAINT subsectie2_fk REFERENCES Subsectie(ID_Subsectie),
+ Anul NUMBER(1),
+ Taxa VARCHAR2(3));
+
+CREATE TABLE Materie(
+ ID_Materie NUMBER(5) PRIMARY KEY,
+ Nume VARCHAR2(50));
+
+CREATE TABLE Mat_Prof(
+ ID_Profesor NUMBER(5) CONSTRAINT profesor_fk REFERENCES Profesor(ID_Profesor),
+ ID_Materie NUMBER(5) CONSTRAINT materie_fk REFERENCES Materie(ID_Materie));
+
+CREATE TABLE Stud_Prof(
+ Nr_Matricol NUMBER(5) CONSTRAINT nrmatricol_fk REFERENCES Student(Nr_Matricol),
+ ID_Profesor NUMBER(5) CONSTRAINT profesor2_fk REFERENCES Profesor(ID_Profesor));
+
+CREATE TABLE Stud_Mat(
+ ID_Materie NUMBER(5) CONSTRAINT materie2_fk REFERENCES Materie(ID_Materie),
+ Nr_Matricol NUMBER(5) CONSTRAINT nrmatricol2_fk REFERENCES Student(Nr_Matricol),
+ Nota NUMBER(2),
+ Data DATE
+);
+
+
+==============================================================================================================================
+                                                   POPULARE TABELE
+==============================================================================================================================
+begin
+INSERT INTO Secretariat (ID_Secretariat, Telefon) VALUES (1, '0725674529');
+INSERT INTO Secretariat (ID_Secretariat, Telefon) VALUES (2, '0746578354');
+INSERT INTO Secretariat (ID_Secretariat, Telefon) VALUES (3, '0756470964');
+INSERT INTO Secretariat (ID_Secretariat, Telefon) VALUES (4, '0775483674');
+INSERT INTO Secretariat (ID_Secretariat, Telefon) VALUES (5, '0764839667');
+INSERT INTO Secretariat (ID_Secretariat, Telefon) VALUES (6, '0755674529');
+INSERT INTO Secretariat (ID_Secretariat, Telefon) VALUES (7, '0746578300');
+INSERT INTO Secretariat (ID_Secretariat, Telefon) VALUES (8, '0756880964');
+INSERT INTO Secretariat (ID_Secretariat, Telefon) VALUES (9, '0775422674');
+INSERT INTO Secretariat (ID_Secretariat, Telefon) VALUES (10, '0744839667');
+INSERT INTO Secretariat (ID_Secretariat, Telefon) VALUES (11, '0764839777');
+INSERT INTO Secretariat (ID_Secretariat, Telefon) VALUES (12, '0714459667');
+INSERT INTO Secretariat (ID_Secretariat, Telefon) VALUES (13, '0764839067');
+INSERT INTO Secretariat (ID_Secretariat, Telefon) VALUES (14, '0724831667');
+INSERT INTO Secretariat (ID_Secretariat, Telefon) VALUES (15, '0744839607');
+INSERT INTO Secretariat (ID_Secretariat, Telefon) VALUES (16, '0734839617');
+INSERT INTO Secretariat (ID_Secretariat, Telefon) VALUES (17, '0764939627');
+INSERT INTO Secretariat (ID_Secretariat, Telefon) VALUES (18, '0764339637');
+INSERT INTO Secretariat (ID_Secretariat, Telefon) VALUES (19, '0754888647');
+INSERT INTO Secretariat (ID_Secretariat, Telefon) VALUES (20, '0764839111');
+end;
+/
+
+begin
+INSERT INTO Facultate (ID_Facultate, ID_Secretariat, Nume, Adresa) VALUES (1, 1, 'Facultatea de Drept', 'Str. Lamaitei Nr. 21');
+INSERT INTO Facultate (ID_Facultate, ID_Secretariat, Nume, Adresa) VALUES (2, 2, 'Facultatea de Agronomie', 'Str. Decebal Nr. 37');
+INSERT INTO Facultate (ID_Facultate, ID_Secretariat, Nume, Adresa) VALUES (3, 3, 'Facultatea de Stiinte Sociale', 'Str. Imparatu Traian Nr. 44');
+INSERT INTO Facultate (ID_Facultate, ID_Secretariat, Nume, Adresa) VALUES (4, 4, 'Facultatea de Automatica,Calculatoare,Electronica', 'Str. Elena Farago Nr. 75');
+INSERT INTO Facultate (ID_Facultate, ID_Secretariat, Nume, Adresa) VALUES (5, 5, 'Facultatea de Chimie', 'Str. Argetoianu Nr. 51');
+INSERT INTO Facultate (ID_Facultate, ID_Secretariat, Nume, Adresa) VALUES (6, 6, 'Facultatea de Litere', 'Str. Cantacuzino Nr. 103');
+INSERT INTO Facultate (ID_Facultate, ID_Secretariat, Nume, Adresa) VALUES (7, 7, 'Facultatea de Teologie', 'Str. Regina Maria Nr. 98');
+INSERT INTO Facultate (ID_Facultate, ID_Secretariat, Nume, Adresa) VALUES (8, 8, 'Facultatea de Informatica', 'Str. Lujerului Nr. 204');
+INSERT INTO Facultate (ID_Facultate, ID_Secretariat, Nume, Adresa) VALUES (9, 9, 'Facultatea de Geografie', 'Str. Tudor Vladimirescu Nr. 94');
+INSERT INTO Facultate (ID_Facultate, ID_Secretariat, Nume, Adresa) VALUES (10, 10, 'Facultatea de Fizica', 'Str. Marin Preda Nr. 51');
+INSERT INTO Facultate (ID_Facultate, ID_Secretariat, Nume, Adresa) VALUES (11, 11, 'Facultatea de Educatie Fizica si Sport', 'Str. Brestei Nr. 67');
+INSERT INTO Facultate (ID_Facultate, ID_Secretariat, Nume, Adresa) VALUES (12, 12, 'Facultatea de Mecanica', 'Str. Primaverii Nr. 101');
+INSERT INTO Facultate (ID_Facultate, ID_Secretariat, Nume, Adresa) VALUES (13, 13, 'Facultatea de Biologie', 'Str. Cantonului Nr. 13');
+INSERT INTO Facultate (ID_Facultate, ID_Secretariat, Nume, Adresa) VALUES (14, 14, 'Facultatea de Medicina', 'Str. Fragilor Nr. 132');
+INSERT INTO Facultate (ID_Facultate, ID_Secretariat, Nume, Adresa) VALUES (15, 15, 'Facultatea de Inginerie Electrica', 'Str. Bibescu Nr. 85');
+INSERT INTO Facultate (ID_Facultate, ID_Secretariat, Nume, Adresa) VALUES (16, 16, 'Facultatea de Economie si Administrarea Afacerilor', 'Str. Teilor Nr. 50');
+INSERT INTO Facultate (ID_Facultate, ID_Secretariat, Nume, Adresa) VALUES (17, 17, 'Facultatea de Arhitectura', 'Str. Elena Teodorini Nr. 62');
+INSERT INTO Facultate (ID_Facultate, ID_Secretariat, Nume, Adresa) VALUES (18, 18, 'Facultatea de Jurnalism', 'Str. Magnoliei Nr. 30');
+INSERT INTO Facultate (ID_Facultate, ID_Secretariat, Nume, Adresa) VALUES (19, 19, 'Facultatea de Istorie', 'Str. Amza Pellea Nr. 42');
+INSERT INTO Facultate (ID_Facultate, ID_Secretariat, Nume, Adresa) VALUES (20, 20, 'Facultatea de Psihologie', 'Str. Viilor Nr. 70');
+end;
+/
+
+begin
+INSERT INTO Sectie (ID_Sectie, ID_Facultate, Nume) VALUES (1, 1, 'Drept Privat');
+INSERT INTO Sectie (ID_Sectie, ID_Facultate, Nume) VALUES (2, 1, 'Drept Civil');
+INSERT INTO Sectie (ID_Sectie, ID_Facultate, Nume) VALUES (3, 1, 'Drept Penal');
+
+INSERT INTO Sectie (ID_Sectie, ID_Facultate, Nume) VALUES (4, 2, 'Horticultura');
+INSERT INTO Sectie (ID_Sectie, ID_Facultate, Nume) VALUES (5, 2, 'Pomicultura');
+
+INSERT INTO Sectie (ID_Sectie, ID_Facultate, Nume) VALUES (6, 3, 'Asistenta Sociala');
+INSERT INTO Sectie (ID_Sectie, ID_Facultate, Nume) VALUES (7, 3, 'Stiinte Politice');
+
+INSERT INTO Sectie (ID_Sectie, ID_Facultate, Nume) VALUES (8, 4, 'Calculatoare');
+INSERT INTO Sectie (ID_Sectie, ID_Facultate, Nume) VALUES (9, 4, 'Automatica si Informatica Aplicata');
+INSERT INTO Sectie (ID_Sectie, ID_Facultate, Nume) VALUES (10, 4, 'Robotica');
+
+INSERT INTO Sectie (ID_Sectie, ID_Facultate, Nume) VALUES (11, 5, 'Chimie Analitica');
+INSERT INTO Sectie (ID_Sectie, ID_Facultate, Nume) VALUES (12, 5, 'Chimie Anorganica');
+
+INSERT INTO Sectie (ID_Sectie, ID_Facultate, Nume) VALUES (13, 6, 'Studii literare');
+INSERT INTO Sectie (ID_Sectie, ID_Facultate, Nume) VALUES (14, 6, 'Lingvistica');
+
+INSERT INTO Sectie (ID_Sectie, ID_Facultate, Nume) VALUES (15, 7, 'Teologie Ortodoxa');
+INSERT INTO Sectie (ID_Sectie, ID_Facultate, Nume) VALUES (16, 7, 'Teologie Romano-Catolica');
+
+INSERT INTO Sectie (ID_Sectie, ID_Facultate, Nume) VALUES (17, 8, 'Informatica');
+
+INSERT INTO Sectie (ID_Sectie, ID_Facultate, Nume) VALUES (18, 9, 'Geografie');
+INSERT INTO Sectie (ID_Sectie, ID_Facultate, Nume) VALUES (19, 9, 'Turism');
+
+INSERT INTO Sectie (ID_Sectie, ID_Facultate, Nume) VALUES (20, 10, 'Fizica');
+
+INSERT INTO Sectie (ID_Sectie, ID_Facultate, Nume) VALUES (21, 11, 'Educatie Fizica si Sport');
+INSERT INTO Sectie (ID_Sectie, ID_Facultate, Nume) VALUES (22, 11, 'Kinetoterapie si Motricitate');
+
+INSERT INTO Sectie (ID_Sectie, ID_Facultate, Nume) VALUES (23, 12, 'Ingineria autovehiculelor');
+INSERT INTO Sectie (ID_Sectie, ID_Facultate, Nume) VALUES (24, 12, 'Ingineria transporturilor');
+
+INSERT INTO Sectie (ID_Sectie, ID_Facultate, Nume) VALUES (25, 13, 'Biologie Vegetala');
+INSERT INTO Sectie (ID_Sectie, ID_Facultate, Nume) VALUES (26, 13, 'Biologie Animala');
+
+INSERT INTO Sectie (ID_Sectie, ID_Facultate, Nume) VALUES (27, 14, 'Medicina Dentara');
+INSERT INTO Sectie (ID_Sectie, ID_Facultate, Nume) VALUES (28, 14, 'Farmacie');
+
+INSERT INTO Sectie (ID_Sectie, ID_Facultate, Nume) VALUES (29, 15, 'Inginerie aerospatiala');
+INSERT INTO Sectie (ID_Sectie, ID_Facultate, Nume) VALUES (30, 15, 'Sisteme Electrice');
+
+INSERT INTO Sectie (ID_Sectie, ID_Facultate, Nume) VALUES (31, 16, 'Finante-Banci');
+INSERT INTO Sectie (ID_Sectie, ID_Facultate, Nume) VALUES (32, 16, 'Contabilitate');
+INSERT INTO Sectie (ID_Sectie, ID_Facultate, Nume) VALUES (33, 16, 'Marketing');
+
+INSERT INTO Sectie (ID_Sectie, ID_Facultate, Nume) VALUES (34, 17, 'Arhitectura si Design');
+
+INSERT INTO Sectie (ID_Sectie, ID_Facultate, Nume) VALUES (35, 18, 'Jurnalism si Comunicare');
+
+INSERT INTO Sectie (ID_Sectie, ID_Facultate, Nume) VALUES (36, 19, 'Istorie Universala');
+
+
+INSERT INTO Sectie (ID_Sectie, ID_Facultate, Nume) VALUES (37, 20, 'Psihologie si Stiinte ale Comunicarii');
+end;
+/
+
+begin
+INSERT INTO Subsectie (ID_Subsectie, ID_Sectie, Nume) VALUES (1, 1, '1.1 A');
+INSERT INTO Subsectie (ID_Subsectie, ID_Sectie, Nume) VALUES (2, 2, '1.2 B');
+INSERT INTO Subsectie (ID_Subsectie, ID_Sectie, Nume) VALUES (3, 3, '1.3 C');
+INSERT INTO Subsectie (ID_Subsectie, ID_Sectie, Nume) VALUES (4, 4, '1.1');
+INSERT INTO Subsectie (ID_Subsectie, ID_Sectie, Nume) VALUES (5, 4, '1.2');
+INSERT INTO Subsectie (ID_Subsectie, ID_Sectie, Nume) VALUES (6, 5, '1.3');
+INSERT INTO Subsectie (ID_Subsectie, ID_Sectie, Nume) VALUES (7, 6, '1.1');
+INSERT INTO Subsectie (ID_Subsectie, ID_Sectie, Nume) VALUES (8, 7, '1.2');
+INSERT INTO Subsectie (ID_Subsectie, ID_Sectie, Nume) VALUES (9, 8, '1.3');
+INSERT INTO Subsectie (ID_Subsectie, ID_Sectie, Nume) VALUES (10, 9, '1.1');
+INSERT INTO Subsectie (ID_Subsectie, ID_Sectie, Nume) VALUES (11, 10, '1.2');
+INSERT INTO Subsectie (ID_Subsectie, ID_Sectie, Nume) VALUES (12, 11, '1.3');
+INSERT INTO Subsectie (ID_Subsectie, ID_Sectie, Nume) VALUES (13, 12, '1.1');
+INSERT INTO Subsectie (ID_Subsectie, ID_Sectie, Nume) VALUES (14, 13, '1.2');
+INSERT INTO Subsectie (ID_Subsectie, ID_Sectie, Nume) VALUES (15, 14, '1.3');
+INSERT INTO Subsectie (ID_Subsectie, ID_Sectie, Nume) VALUES (16, 15, '1.1');
+INSERT INTO Subsectie (ID_Subsectie, ID_Sectie, Nume) VALUES (17, 16, '1.2');
+INSERT INTO Subsectie (ID_Subsectie, ID_Sectie, Nume) VALUES (18, 17, '1.3');
+INSERT INTO Subsectie (ID_Subsectie, ID_Sectie, Nume) VALUES (19, 18, '1.1');
+INSERT INTO Subsectie (ID_Subsectie, ID_Sectie, Nume) VALUES (20, 19, '1.2');
+INSERT INTO Subsectie (ID_Subsectie, ID_Sectie, Nume) VALUES (21, 20, '1.3');
+INSERT INTO Subsectie (ID_Subsectie, ID_Sectie, Nume) VALUES (22, 21, '1.1');
+INSERT INTO Subsectie (ID_Subsectie, ID_Sectie, Nume) VALUES (23, 22, '1.2');
+INSERT INTO Subsectie (ID_Subsectie, ID_Sectie, Nume) VALUES (24, 23, '1.3');
+INSERT INTO Subsectie (ID_Subsectie, ID_Sectie, Nume) VALUES (25, 24, '1.1');
+INSERT INTO Subsectie (ID_Subsectie, ID_Sectie, Nume) VALUES (26, 25, '1.2');
+INSERT INTO Subsectie (ID_Subsectie, ID_Sectie, Nume) VALUES (27, 26, '1.3');
+INSERT INTO Subsectie (ID_Subsectie, ID_Sectie, Nume) VALUES (28, 27, '1.1');
+INSERT INTO Subsectie (ID_Subsectie, ID_Sectie, Nume) VALUES (29, 28, '1.2');
+INSERT INTO Subsectie (ID_Subsectie, ID_Sectie, Nume) VALUES (30, 29, '1.3');
+INSERT INTO Subsectie (ID_Subsectie, ID_Sectie, Nume) VALUES (31, 30, '1.1');
+INSERT INTO Subsectie (ID_Subsectie, ID_Sectie, Nume) VALUES (32, 31, '1.2');
+INSERT INTO Subsectie (ID_Subsectie, ID_Sectie, Nume) VALUES (33, 32, '1.3');
+INSERT INTO Subsectie (ID_Subsectie, ID_Sectie, Nume) VALUES (34, 33, '1.1');
+INSERT INTO Subsectie (ID_Subsectie, ID_Sectie, Nume) VALUES (35, 34, '1.2');
+INSERT INTO Subsectie (ID_Subsectie, ID_Sectie, Nume) VALUES (36, 35, '1.3');
+INSERT INTO Subsectie (ID_Subsectie, ID_Sectie, Nume) VALUES (37, 36, '1.1');
+INSERT INTO Subsectie (ID_Subsectie, ID_Sectie, Nume) VALUES (38, 37, '1.2');
+end;
+/
+
+begin
+INSERT INTO Persoana(CNP,Nume, Prenume, Data_Nastere,Sex, Locul_Nasterii) VALUES ('2975374894601', 'Andreescu', 'Maria', '12-02-95', 'F', 'Craiova, Dolj');
+INSERT INTO Persoana(CNP,Nume, Prenume, Data_Nastere,Sex, Locul_Nasterii) VALUES ('2975374894602', 'Badea', 'Andreea', '09-05-96', 'F', 'Filiasi, Dolj');
+INSERT INTO Persoana(CNP,Nume, Prenume, Data_Nastere,Sex, Locul_Nasterii) VALUES ('2975374894603', 'Badescu', 'Kaira', '03-06-95', 'F', 'Calafat, Dolj');
+
+INSERT INTO Persoana(CNP,Nume, Prenume, Data_Nastere,Sex, Locul_Nasterii) VALUES ('2975374894604', 'Calota', 'Isabela', '11-10-70', 'F', 'Craiova, Dolj');
+INSERT INTO Persoana(CNP,Nume, Prenume, Data_Nastere,Sex, Locul_Nasterii) VALUES ('2975374894605', 'Dionisie', 'Elena', '08-27-65', 'F', 'Craiova, Dolj');
+INSERT INTO Persoana(CNP,Nume, Prenume, Data_Nastere,Sex, Locul_Nasterii) VALUES ('1975374894606', 'Diaconu', 'Marian', '12-02-71', 'M', 'Craiova, Dolj');
+INSERT INTO Persoana(CNP,Nume, Prenume, Data_Nastere,Sex, Locul_Nasterii) VALUES ('2975374894607', 'Anghel', 'Andreea', '09-05-67', 'F', 'Filiasi, Dolj');
+INSERT INTO Persoana(CNP,Nume, Prenume, Data_Nastere,Sex, Locul_Nasterii) VALUES ('2975374894608', 'Stamate', 'Ionela', '03-06-73', 'F', 'Calafat, Dolj');
+INSERT INTO Persoana(CNP,Nume, Prenume, Data_Nastere,Sex, Locul_Nasterii) VALUES ('1975374894609', 'Cazacu', 'Ionel', '11-10-80', 'M', 'Craiova, Dolj');
+INSERT INTO Persoana(CNP,Nume, Prenume, Data_Nastere,Sex, Locul_Nasterii) VALUES ('1975374894010', 'Preda', 'Cristian', '08-27-65', 'M', 'Craiova, Dolj');
+INSERT INTO Persoana(CNP,Nume, Prenume, Data_Nastere,Sex, Locul_Nasterii) VALUES ('2975374894011', 'Sorescu', 'Maria', '12-02-57', 'F', 'Slatina, Olt');
+INSERT INTO Persoana(CNP,Nume, Prenume, Data_Nastere,Sex, Locul_Nasterii) VALUES ('1975374894012', 'Dinu', 'Paula', '09-05-67', 'M', 'Filiasi, Dolj');
+INSERT INTO Persoana(CNP,Nume, Prenume, Data_Nastere,Sex, Locul_Nasterii) VALUES ('2975374894013', 'Nicolae', 'Elena', '03-06-65', 'F', 'Calafat, Dolj');
+INSERT INTO Persoana(CNP,Nume, Prenume, Data_Nastere,Sex, Locul_Nasterii) VALUES ('2975374894014', 'Junoiu', 'Isabela', '11-10-70', 'F', 'Craiova, Dolj');
+INSERT INTO Persoana(CNP,Nume, Prenume, Data_Nastere,Sex, Locul_Nasterii) VALUES ('1975374894015', 'Nedelcu', 'Vlad', '08-27-55', 'M', 'Craiova, Dolj');
+INSERT INTO Persoana(CNP,Nume, Prenume, Data_Nastere,Sex, Locul_Nasterii) VALUES ('2975374894016', 'Ionascu', 'Natalia', '12-02-65', 'F', 'Craiova, Dolj');
+INSERT INTO Persoana(CNP,Nume, Prenume, Data_Nastere,Sex, Locul_Nasterii) VALUES ('1975374894017', 'Cristea', 'Andrei', '09-05-56', 'M', 'Filiasi, Dolj');
+INSERT INTO Persoana(CNP,Nume, Prenume, Data_Nastere,Sex, Locul_Nasterii) VALUES ('1975374894018', 'Cornaciu', 'Bogdan', '03-06-55', 'M', 'Calafat, Dolj');
+INSERT INTO Persoana(CNP,Nume, Prenume, Data_Nastere,Sex, Locul_Nasterii) VALUES ('2975374894019', 'Boteanu', 'Ioana', '11-10-50', 'F', 'Craiova, Dolj');
+INSERT INTO Persoana(CNP,Nume, Prenume, Data_Nastere,Sex, Locul_Nasterii) VALUES ('2975374894020', 'Popa', 'Elena', '08-27-65', 'F', 'Craiova, Dolj');
+INSERT INTO Persoana(CNP,Nume, Prenume, Data_Nastere,Sex, Locul_Nasterii) VALUES ('1975374894021', 'Negut', 'Alexandru', '12-02-55', 'M', 'Slatina, Olt');
+INSERT INTO Persoana(CNP,Nume, Prenume, Data_Nastere,Sex, Locul_Nasterii) VALUES ('2975374894022', 'Mijea', 'Andreea', '09-05-66', 'F', 'Filiasi, Dolj');
+INSERT INTO Persoana(CNP,Nume, Prenume, Data_Nastere,Sex, Locul_Nasterii) VALUES ('2975374894023', 'Trusca', 'Maria', '03-06-58', 'F', 'Calafat, Dolj');
+INSERT INTO Persoana(CNP,Nume, Prenume, Data_Nastere,Sex, Locul_Nasterii) VALUES ('2975374894024', 'Costache', 'Ingrid', '11-10-70', 'F', 'Craiova, Dolj');
+INSERT INTO Persoana(CNP,Nume, Prenume, Data_Nastere,Sex, Locul_Nasterii) VALUES ('1975374894025', 'Dutu', 'Marius', '08-27-65', 'M', 'Craiova, Dolj');
+INSERT INTO Persoana(CNP,Nume, Prenume, Data_Nastere,Sex, Locul_Nasterii) VALUES ('1975374894026', 'Cusmereanu', 'Marian', '12-02-65', 'M', 'Craiova, Dolj');
+INSERT INTO Persoana(CNP,Nume, Prenume, Data_Nastere,Sex, Locul_Nasterii) VALUES ('2975374894027', 'Mutu', 'Andreea', '09-05-76', 'F', 'Filiasi, Dolj');
+INSERT INTO Persoana(CNP,Nume, Prenume, Data_Nastere,Sex, Locul_Nasterii) VALUES ('1975374894028', 'Creteanu', 'David', '03-06-65', 'M', 'Calafat, Dolj');
+INSERT INTO Persoana(CNP,Nume, Prenume, Data_Nastere,Sex, Locul_Nasterii) VALUES ('1975374894029', 'Maican', 'Claudiu', '11-10-70', 'M', 'Craiova, Dolj');
+INSERT INTO Persoana(CNP,Nume, Prenume, Data_Nastere,Sex, Locul_Nasterii) VALUES ('2975374894030', 'Pisla', 'Elena', '08-27-65', 'F', 'Craiova, Dolj');
+INSERT INTO Persoana(CNP,Nume, Prenume, Data_Nastere,Sex, Locul_Nasterii) VALUES ('1975374894032', 'Caprioara', 'Vasile', '12-02-75', 'M', 'Craiova, Dolj');
+INSERT INTO Persoana(CNP,Nume, Prenume, Data_Nastere,Sex, Locul_Nasterii) VALUES ('2975374894033', 'Militaru', 'Loredana', '09-05-76', 'F', 'Filiasi, Dolj');
+INSERT INTO Persoana(CNP,Nume, Prenume, Data_Nastere,Sex, Locul_Nasterii) VALUES ('1975374894034', 'Malin', 'Dragos', '03-06-65', 'M', 'Calafat, Dolj');
+INSERT INTO Persoana(CNP,Nume, Prenume, Data_Nastere,Sex, Locul_Nasterii) VALUES ('2975374894035', 'Mihai', 'Isabela', '11-10-70', 'F', 'Craiova, Dolj');
+INSERT INTO Persoana(CNP,Nume, Prenume, Data_Nastere,Sex, Locul_Nasterii) VALUES ('1975374894036', 'Daju', 'Ion', '08-27-65', 'M', 'Craiova, Dolj');
+INSERT INTO Persoana(CNP,Nume, Prenume, Data_Nastere,Sex, Locul_Nasterii) VALUES ('2975374894037', 'Barboianu', 'Maria', '12-02-65', 'F', 'Craiova, Dolj');
+INSERT INTO Persoana(CNP,Nume, Prenume, Data_Nastere,Sex, Locul_Nasterii) VALUES ('2975374894038', 'Chioibas', 'Andreea', '09-05-76', 'F', 'Filiasi, Dolj');
+INSERT INTO Persoana(CNP,Nume, Prenume, Data_Nastere,Sex, Locul_Nasterii) VALUES ('1975374894039', 'Guta', 'Cristian', '03-06-75', 'M', 'Calafat, Dolj');
+INSERT INTO Persoana(CNP,Nume, Prenume, Data_Nastere,Sex, Locul_Nasterii) VALUES ('2975374894040', 'Barbu', 'Carmen', '11-10-70', 'F', 'Craiova, Dolj');
+INSERT INTO Persoana(CNP,Nume, Prenume, Data_Nastere,Sex, Locul_Nasterii) VALUES ('2975374894041', 'Mardaloiu', 'Elena', '08-27-65', 'F', 'Craiova, Dolj');
+INSERT INTO Persoana(CNP,Nume, Prenume, Data_Nastere,Sex, Locul_Nasterii) VALUES ('1975374894042', 'Dogaru', 'Bogdan', '08-27-65', 'M', 'Timisoara, Timis');
+INSERT INTO Persoana(CNP,Nume, Prenume, Data_Nastere,Sex, Locul_Nasterii) VALUES ('1975374894043', 'Barbut', 'Andrei', '08-27-68', 'M', 'Craiova, Dolj');
+INSERT INTO Persoana(CNP,Nume, Prenume, Data_Nastere,Sex, Locul_Nasterii) VALUES ('2975374894044', 'Zhouri', 'Maria', '08-27-69', 'F', 'Slatina, Olt');
+INSERT INTO Persoana(CNP,Nume, Prenume, Data_Nastere,Sex, Locul_Nasterii) VALUES ('2975374894045', 'Cismaru', 'Nicoleta', '08-27-63', 'F', 'Filiasi, Dolj');
+INSERT INTO Persoana(CNP,Nume, Prenume, Data_Nastere,Sex, Locul_Nasterii) VALUES ('1975374894046', 'Stoenescu', 'David', '08-27-65', 'M', 'Craiova, Dolj');
+INSERT INTO Persoana(CNP,Nume, Prenume, Data_Nastere,Sex, Locul_Nasterii) VALUES ('2975374894047', 'Grecu', 'Paula', '08-27-65', 'F', 'Targu Jiu, Gorj');
+INSERT INTO Persoana(CNP,Nume, Prenume, Data_Nastere,Sex, Locul_Nasterii) VALUES ('2975374894048', 'Geicu', 'Ioana', '08-27-67', 'F', 'Craiova, Dolj');
+INSERT INTO Persoana(CNP,Nume, Prenume, Data_Nastere,Sex, Locul_Nasterii) VALUES ('1975374894049', 'Georgescu', 'Darius', '08-27-65', 'M', 'Craiova, Dolj');
+INSERT INTO Persoana(CNP,Nume, Prenume, Data_Nastere,Sex, Locul_Nasterii) VALUES ('2975374894050', 'Farcasanu', 'Elena', '08-27-64', 'F', 'Baia Mare, Dolj');
+INSERT INTO Persoana(CNP,Nume, Prenume, Data_Nastere,Sex, Locul_Nasterii) VALUES ('1975374894051', 'Bazgu', 'Eusebiu', '08-27-69', 'M', 'Craiova, Dolj');
+INSERT INTO Persoana(CNP,Nume, Prenume, Data_Nastere,Sex, Locul_Nasterii) VALUES ('2975374894052', 'Fira', 'Carmen', '08-27-65', 'F', 'Craiova, Dolj');
+INSERT INTO Persoana(CNP,Nume, Prenume, Data_Nastere,Sex, Locul_Nasterii) VALUES ('1975374894053', 'Hintea', 'Madalin', '08-27-75', 'M', 'Craiova, Dolj');
+INSERT INTO Persoana(CNP,Nume, Prenume, Data_Nastere,Sex, Locul_Nasterii) VALUES ('2975374894054', 'Scarlat', 'Elena', '08-27-50', 'F', 'Craiova, Dolj');
+
+INSERT INTO Persoana(CNP,Nume, Prenume, Data_Nastere,Sex, Locul_Nasterii) VALUES ('2975374894055', 'Munteanu', 'Elena', '08-27-95', 'M', 'Craiova, Dolj');
+INSERT INTO Persoana(CNP,Nume, Prenume, Data_Nastere,Sex, Locul_Nasterii) VALUES ('2975374894056', 'Zmarandache', 'Elena', '08-27-95', 'F', 'Targu Jiu, Gorj');
+INSERT INTO Persoana(CNP,Nume, Prenume, Data_Nastere,Sex, Locul_Nasterii) VALUES ('2975374894057', 'Brandusoiu', 'Elena', '08-27-95', 'F', 'Craiova, Dolj');
+INSERT INTO Persoana(CNP,Nume, Prenume, Data_Nastere,Sex, Locul_Nasterii) VALUES ('2975374894058', 'Truta', 'Elena', '08-27-95', 'M', 'Craiova, Dolj');
+INSERT INTO Persoana(CNP,Nume, Prenume, Data_Nastere,Sex, Locul_Nasterii) VALUES ('2975374894059', 'Buleandra', 'Elena', '08-27-95', 'F', 'Craiova, Dolj');
+INSERT INTO Persoana(CNP,Nume, Prenume, Data_Nastere,Sex, Locul_Nasterii) VALUES ('2975374894060', 'Grosu', 'Elena', '08-27-95', 'F', 'Craiova, Dolj');
+INSERT INTO Persoana(CNP,Nume, Prenume, Data_Nastere,Sex, Locul_Nasterii) VALUES ('2975374894061', 'Bitoleanu', 'Elena', '08-27-95', 'M', 'Slatina, Olt');
+INSERT INTO Persoana(CNP,Nume, Prenume, Data_Nastere,Sex, Locul_Nasterii) VALUES ('2975374894062', 'Turbatu', 'Elena', '08-27-95', 'F', 'Craiova, Dolj');
+INSERT INTO Persoana(CNP,Nume, Prenume, Data_Nastere,Sex, Locul_Nasterii) VALUES ('2975374894063', 'Onete', 'Elena', '08-27-95', 'M', 'Targu Jiu, Gorj');
+INSERT INTO Persoana(CNP,Nume, Prenume, Data_Nastere,Sex, Locul_Nasterii) VALUES ('2975374894064', 'Vuescu', 'Elena', '08-27-95', 'F', 'Targu Jiu, Gorj');
+INSERT INTO Persoana(CNP,Nume, Prenume, Data_Nastere,Sex, Locul_Nasterii) VALUES ('2975374894065', 'Urdea', 'Elena', '08-27-95', 'M', 'Craiova, Dolj');
+INSERT INTO Persoana(CNP,Nume, Prenume, Data_Nastere,Sex, Locul_Nasterii) VALUES ('2975374894066', 'Bercea', 'Elena', '08-27-95', 'F', 'Craiova, Dolj');
+INSERT INTO Persoana(CNP,Nume, Prenume, Data_Nastere,Sex, Locul_Nasterii) VALUES ('2975374894067', 'Ciuca', 'Elena', '08-27-95', 'M', 'Slatina, Olt');
+INSERT INTO Persoana(CNP,Nume, Prenume, Data_Nastere,Sex, Locul_Nasterii) VALUES ('2975374894068', 'Dan', 'Elena', '08-27-95', 'F', 'Craiova, Dolj');
+INSERT INTO Persoana(CNP,Nume, Prenume, Data_Nastere,Sex, Locul_Nasterii) VALUES ('2975374894069', 'Durla', 'Elena', '08-27-95', 'M', 'Targu Jiu, Gorj');
+INSERT INTO Persoana(CNP,Nume, Prenume, Data_Nastere,Sex, Locul_Nasterii) VALUES ('2975374894070', 'Udrea', 'Elena', '08-27-95', 'F', 'Craiova, Dolj');
+INSERT INTO Persoana(CNP,Nume, Prenume, Data_Nastere,Sex, Locul_Nasterii) VALUES ('2975374894071', 'Dragan', 'Elena', '08-27-95', 'M', 'Slatina, Olt');
+INSERT INTO Persoana(CNP,Nume, Prenume, Data_Nastere,Sex, Locul_Nasterii) VALUES ('2975374894072', 'Vladoiu', 'Elena', '08-27-95', 'F', 'Craiova, Dolj');
+INSERT INTO Persoana(CNP,Nume, Prenume, Data_Nastere,Sex, Locul_Nasterii) VALUES ('2975374894073', 'Oprea', 'Elena', '08-27-95', 'F', 'Slatina, Olt');
+INSERT INTO Persoana(CNP,Nume, Prenume, Data_Nastere,Sex, Locul_Nasterii) VALUES ('2975374894074', 'Belciu', 'Elena', '08-27-95', 'M', 'Craiova, Dolj');
+INSERT INTO Persoana(CNP,Nume, Prenume, Data_Nastere,Sex, Locul_Nasterii) VALUES ('2975374894075', 'Gidea', 'Elena', '08-27-95', 'F', 'Craiova, Dolj');
+INSERT INTO Persoana(CNP,Nume, Prenume, Data_Nastere,Sex, Locul_Nasterii) VALUES ('2975374894076', 'Manolescu', 'Elena', '08-27-95', 'M', 'Craiova, Dolj');
+INSERT INTO Persoana(CNP,Nume, Prenume, Data_Nastere,Sex, Locul_Nasterii) VALUES ('2975374894077', 'Cismaru', 'Elena', '08-27-95', 'M', 'Targu Jiu, Gorj');
+INSERT INTO Persoana(CNP,Nume, Prenume, Data_Nastere,Sex, Locul_Nasterii) VALUES ('2975374894078', 'Morariu', 'Elena', '08-27-95', 'F', 'Craiova, Dolj');
+INSERT INTO Persoana(CNP,Nume, Prenume, Data_Nastere,Sex, Locul_Nasterii) VALUES ('2975374894079', 'Nicolescu', 'Elena', '08-27-95', 'M', 'Craiova, Dolj');
+INSERT INTO Persoana(CNP,Nume, Prenume, Data_Nastere,Sex, Locul_Nasterii) VALUES ('2975374894080', 'Stancu', 'Elena', '08-27-95', 'F', 'Slatina, Olt');
+INSERT INTO Persoana(CNP,Nume, Prenume, Data_Nastere,Sex, Locul_Nasterii) VALUES ('2975374894081', 'Pandele', 'Elena', '08-27-95', 'M', 'Craiova, Dolj');
+INSERT INTO Persoana(CNP,Nume, Prenume, Data_Nastere,Sex, Locul_Nasterii) VALUES ('1975374894082', 'Popescu', 'Dragos', '08-27-95', 'M', 'Craiova, Dolj');
+INSERT INTO Persoana(CNP,Nume, Prenume, Data_Nastere,Sex, Locul_Nasterii) VALUES ('2975374894083', 'Voicu', 'Alina', '08-27-95', 'F', 'Craiova, Dolj');
+INSERT INTO Persoana(CNP,Nume, Prenume, Data_Nastere,Sex, Locul_Nasterii) VALUES ('1975374894084', 'Serban', 'Marius', '05-27-95', 'M', 'Craiova, Dolj');
+INSERT INTO Persoana(CNP,Nume, Prenume, Data_Nastere,Sex, Locul_Nasterii) VALUES ('1975374894085', 'Marcusanu', 'Razvan', '08-27-95', 'M', 'Targu Jiu, Gorj');
+INSERT INTO Persoana(CNP,Nume, Prenume, Data_Nastere,Sex, Locul_Nasterii) VALUES ('2975374894086', 'Nita', 'Elena', '03-27-95', 'F', 'Craiova, Dolj');
+INSERT INTO Persoana(CNP,Nume, Prenume, Data_Nastere,Sex, Locul_Nasterii) VALUES ('1975374894087', 'Leuca', 'Mihai', '01-27-95', 'M', 'Craiova, Dolj');
+INSERT INTO Persoana(CNP,Nume, Prenume, Data_Nastere,Sex, Locul_Nasterii) VALUES ('2975374894088', 'Ciortuz', 'Mirela', '09-27-95', 'F', 'Slatina, Olt');
+INSERT INTO Persoana(CNP,Nume, Prenume, Data_Nastere,Sex, Locul_Nasterii) VALUES ('1975374894089', 'Ghermec', 'Andrei', '10-27-95', 'M', 'Craiova, Dolj');
+INSERT INTO Persoana(CNP,Nume, Prenume, Data_Nastere,Sex, Locul_Nasterii) VALUES ('2975374894090', 'Voicu', 'Diana', '03-27-1995', 'F', 'Timisoara, Timis');
+INSERT INTO Persoana(CNP,Nume, Prenume, Data_Nastere,Sex, Locul_Nasterii) VALUES ('1975374894091', 'Vaduva', 'Mihai', '01-27-1996', 'M', 'Craiova, Dolj');
+INSERT INTO Persoana(CNP,Nume, Prenume, Data_Nastere,Sex, Locul_Nasterii) VALUES ('2975374894092', 'Logofatu', 'Mirela', '09-27-1998', 'F', 'Slatina, Olt');
+INSERT INTO Persoana(CNP,Nume, Prenume, Data_Nastere,Sex, Locul_Nasterii) VALUES ('1975374894093', 'Astamel', 'Andrei', '10-27-1995', 'M', 'Craiova, Dolj');
+INSERT INTO Persoana(CNP,Nume, Prenume, Data_Nastere,Sex, Locul_Nasterii) VALUES ('2975374894094', 'Talea', 'Casandra', '03-27-1994', 'F', 'Craiova, Dolj');
+INSERT INTO Persoana(CNP,Nume, Prenume, Data_Nastere,Sex, Locul_Nasterii) VALUES ('1975374894095', 'Leordeanu', 'Mihai', '01-27-1995', 'M', 'Craiova, Dolj');
+INSERT INTO Persoana(CNP,Nume, Prenume, Data_Nastere,Sex, Locul_Nasterii) VALUES ('2975374894096', 'Comanic', 'Mirela', '09-27-1996', 'F', 'Slatina, Olt');
+INSERT INTO Persoana(CNP,Nume, Prenume, Data_Nastere,Sex, Locul_Nasterii) VALUES ('1975374894097', 'Marcut', 'Andrei', '10-27-1995', 'M', 'Craiova, Dolj');
+INSERT INTO Persoana(CNP,Nume, Prenume, Data_Nastere,Sex, Locul_Nasterii) VALUES ('2975374894098', 'Iliescu', 'Loredana', '03-27-1996', 'F', 'Craiova, Dolj');
+INSERT INTO Persoana(CNP,Nume, Prenume, Data_Nastere,Sex, Locul_Nasterii) VALUES ('1975374894099', 'Ilie', 'Mihai', '01-27-1997', 'M', 'Craiova, Dolj');
+INSERT INTO Persoana(CNP,Nume, Prenume, Data_Nastere,Sex, Locul_Nasterii) VALUES ('2975374890100', 'Badici', 'Mirela', '09-27-1998', 'F', 'Slatina, Olt');
+INSERT INTO Persoana(CNP,Nume, Prenume, Data_Nastere,Sex, Locul_Nasterii) VALUES ('1975374890101', 'Mocanescu', 'Andrei', '10-27-1995', 'M', 'Craiova, Dolj');
+end;
+/
+
+begin
+INSERT INTO Student(Nr_Matricol, CNP, ID_Subsectie, Anul, Taxa) VALUES (1, '2975374894601', 1, 3, 'NU');
+INSERT INTO Student(Nr_Matricol, CNP, ID_Subsectie, Anul, Taxa) VALUES (2, '2975374894602', 2, 4, 'DA');
+INSERT INTO Student(Nr_Matricol, CNP, ID_Subsectie, Anul, Taxa) VALUES (3, '2975374894603', 3, 2, 'NU');
+INSERT INTO Student(Nr_Matricol, CNP, ID_Subsectie, Anul, Taxa) VALUES (4, '2975374894055', 4, 3, 'NU');
+INSERT INTO Student(Nr_Matricol, CNP, ID_Subsectie, Anul, Taxa) VALUES (5, '2975374894056', 5, 4, 'DA');
+INSERT INTO Student(Nr_Matricol, CNP, ID_Subsectie, Anul, Taxa) VALUES (6, '2975374894057', 6, 2, 'NU');
+INSERT INTO Student(Nr_Matricol, CNP, ID_Subsectie, Anul, Taxa) VALUES (7, '2975374894058', 7, 3, 'NU');
+INSERT INTO Student(Nr_Matricol, CNP, ID_Subsectie, Anul, Taxa) VALUES (8, '2975374894059', 8, 4, 'DA');
+INSERT INTO Student(Nr_Matricol, CNP, ID_Subsectie, Anul, Taxa) VALUES (9, '2975374894060', 9, 2, 'NU');
+INSERT INTO Student(Nr_Matricol, CNP, ID_Subsectie, Anul, Taxa) VALUES (10, '2975374894061', 10, 3, 'NU');
+INSERT INTO Student(Nr_Matricol, CNP, ID_Subsectie, Anul, Taxa) VALUES (11, '2975374894062', 11, 4, 'DA');
+INSERT INTO Student(Nr_Matricol, CNP, ID_Subsectie, Anul, Taxa) VALUES (12, '2975374894063', 12, 2, 'NU');
+INSERT INTO Student(Nr_Matricol, CNP, ID_Subsectie, Anul, Taxa) VALUES (13, '2975374894064', 13, 3, 'NU');
+INSERT INTO Student(Nr_Matricol, CNP, ID_Subsectie, Anul, Taxa) VALUES (14, '2975374894065', 14, 4, 'DA');
+INSERT INTO Student(Nr_Matricol, CNP, ID_Subsectie, Anul, Taxa) VALUES (15, '2975374894066', 15, 2, 'NU');
+INSERT INTO Student(Nr_Matricol, CNP, ID_Subsectie, Anul, Taxa) VALUES (16, '2975374894067', 16, 3, 'NU');
+INSERT INTO Student(Nr_Matricol, CNP, ID_Subsectie, Anul, Taxa) VALUES (17, '2975374894068', 17, 4, 'DA');
+INSERT INTO Student(Nr_Matricol, CNP, ID_Subsectie, Anul, Taxa) VALUES (18, '2975374894069', 18, 2, 'NU');
+INSERT INTO Student(Nr_Matricol, CNP, ID_Subsectie, Anul, Taxa) VALUES (19, '2975374894070', 19, 3, 'NU');
+INSERT INTO Student(Nr_Matricol, CNP, ID_Subsectie, Anul, Taxa) VALUES (20, '2975374894071', 20, 4, 'DA');
+INSERT INTO Student(Nr_Matricol, CNP, ID_Subsectie, Anul, Taxa) VALUES (21, '2975374894072', 21, 2, 'NU');
+INSERT INTO Student(Nr_Matricol, CNP, ID_Subsectie, Anul, Taxa) VALUES (22, '2975374894073', 22, 3, 'NU');
+INSERT INTO Student(Nr_Matricol, CNP, ID_Subsectie, Anul, Taxa) VALUES (23, '2975374894074', 23, 4, 'DA');
+INSERT INTO Student(Nr_Matricol, CNP, ID_Subsectie, Anul, Taxa) VALUES (24, '2975374894075', 24, 2, 'NU');
+INSERT INTO Student(Nr_Matricol, CNP, ID_Subsectie, Anul, Taxa) VALUES (25, '2975374894076', 25, 3, 'NU');
+INSERT INTO Student(Nr_Matricol, CNP, ID_Subsectie, Anul, Taxa) VALUES (26, '2975374894077', 26, 4, 'DA');
+INSERT INTO Student(Nr_Matricol, CNP, ID_Subsectie, Anul, Taxa) VALUES (27, '2975374894078', 27, 2, 'NU');
+INSERT INTO Student(Nr_Matricol, CNP, ID_Subsectie, Anul, Taxa) VALUES (28, '2975374894079', 28, 3, 'NU');
+INSERT INTO Student(Nr_Matricol, CNP, ID_Subsectie, Anul, Taxa) VALUES (29, '2975374894080', 29, 4, 'DA');
+INSERT INTO Student(Nr_Matricol, CNP, ID_Subsectie, Anul, Taxa) VALUES (30, '2975374894081', 30, 2, 'NU');
+INSERT INTO Student(Nr_Matricol, CNP, ID_Subsectie, Anul, Taxa) VALUES (31, '1975374894082', 31, 3, 'NU');
+INSERT INTO Student(Nr_Matricol, CNP, ID_Subsectie, Anul, Taxa) VALUES (32, '2975374894083', 32, 4, 'DA');
+INSERT INTO Student(Nr_Matricol, CNP, ID_Subsectie, Anul, Taxa) VALUES (33, '1975374894084', 33, 1, 'NU');
+INSERT INTO Student(Nr_Matricol, CNP, ID_Subsectie, Anul, Taxa) VALUES (34, '1975374894085', 34, 2, 'DA');
+INSERT INTO Student(Nr_Matricol, CNP, ID_Subsectie, Anul, Taxa) VALUES (35, '2975374894086', 35, 3, 'NU');
+INSERT INTO Student(Nr_Matricol, CNP, ID_Subsectie, Anul, Taxa) VALUES (36, '1975374894087', 36, 4, 'NU');
+INSERT INTO Student(Nr_Matricol, CNP, ID_Subsectie, Anul, Taxa) VALUES (37, '2975374894088', 37, 1, 'DA');
+INSERT INTO Student(Nr_Matricol, CNP, ID_Subsectie, Anul, Taxa) VALUES (38, '1975374894089', 38, 1, 'NU');
+
+INSERT INTO Student(Nr_Matricol, CNP, ID_Subsectie, Anul, Taxa) VALUES (39, '2975374894090', 1, 2, 'NU');
+INSERT INTO Student(Nr_Matricol, CNP, ID_Subsectie, Anul, Taxa) VALUES (40, '1975374894091', 2, 3, 'DA');
+INSERT INTO Student(Nr_Matricol, CNP, ID_Subsectie, Anul, Taxa) VALUES (41, '2975374894092', 3, 4, 'NU');
+INSERT INTO Student(Nr_Matricol, CNP, ID_Subsectie, Anul, Taxa) VALUES (42, '1975374894093', 4, 2, 'NU');
+INSERT INTO Student(Nr_Matricol, CNP, ID_Subsectie, Anul, Taxa) VALUES (43, '2975374894094', 5, 4, 'DA');
+INSERT INTO Student(Nr_Matricol, CNP, ID_Subsectie, Anul, Taxa) VALUES (44, '1975374894095', 6, 1, 'NU');
+INSERT INTO Student(Nr_Matricol, CNP, ID_Subsectie, Anul, Taxa) VALUES (45, '2975374894096', 7, 2, 'NU');
+INSERT INTO Student(Nr_Matricol, CNP, ID_Subsectie, Anul, Taxa) VALUES (46, '1975374894097', 8, 3, 'DA');
+INSERT INTO Student(Nr_Matricol, CNP, ID_Subsectie, Anul, Taxa) VALUES (47, '2975374894098', 9, 4, 'NU');
+INSERT INTO Student(Nr_Matricol, CNP, ID_Subsectie, Anul, Taxa) VALUES (48, '1975374894099', 10, 2, 'NU');
+INSERT INTO Student(Nr_Matricol, CNP, ID_Subsectie, Anul, Taxa) VALUES (49, '2975374890100', 11, 4, 'DA');
+INSERT INTO Student(Nr_Matricol, CNP, ID_Subsectie, Anul, Taxa) VALUES (50, '1975374890101', 12, 2, 'NU');
+end;
+/
+
+begin
+INSERT INTO Profesor(ID_Profesor, CNP, Nr_Lucrari,Vechime) VALUES (1,'2975374894604', 12, 5);
+INSERT INTO Profesor(ID_Profesor, CNP, Nr_Lucrari,Vechime) VALUES (2,'2975374894605', 8, 15);
+INSERT INTO Profesor(ID_Profesor, CNP, Nr_Lucrari,Vechime) VALUES (3,'1975374894606', 5, 6);
+INSERT INTO Profesor(ID_Profesor, CNP, Nr_Lucrari,Vechime) VALUES (4,'2975374894607', 8, 13);
+INSERT INTO Profesor(ID_Profesor, CNP, Nr_Lucrari,Vechime) VALUES (5,'2975374894608', 14, 40);
+INSERT INTO Profesor(ID_Profesor, CNP, Nr_Lucrari,Vechime) VALUES (6,'1975374894609', 6, 10);
+INSERT INTO Profesor(ID_Profesor, CNP, Nr_Lucrari,Vechime) VALUES (7,'1975374894010', 2, 5);
+INSERT INTO Profesor(ID_Profesor, CNP, Nr_Lucrari,Vechime) VALUES (8,'2975374894011', 7, 15);
+INSERT INTO Profesor(ID_Profesor, CNP, Nr_Lucrari,Vechime) VALUES (9,'1975374894012', 4, 11);
+INSERT INTO Profesor(ID_Profesor, CNP, Nr_Lucrari,Vechime) VALUES (10,'2975374894013', 12, 27);
+INSERT INTO Profesor(ID_Profesor, CNP, Nr_Lucrari,Vechime) VALUES (11,'2975374894014', 7, 13);
+INSERT INTO Profesor(ID_Profesor, CNP, Nr_Lucrari,Vechime) VALUES (12,'1975374894015', 2, 7);
+INSERT INTO Profesor(ID_Profesor, CNP, Nr_Lucrari,Vechime) VALUES (13,'2975374894016', 8, 12);
+INSERT INTO Profesor(ID_Profesor, CNP, Nr_Lucrari,Vechime) VALUES (14,'1975374894017', 1, 4);
+INSERT INTO Profesor(ID_Profesor, CNP, Nr_Lucrari,Vechime) VALUES (15,'1975374894018', 7, 13);
+INSERT INTO Profesor(ID_Profesor, CNP, Nr_Lucrari,Vechime) VALUES (16,'2975374894019', 9, 15);
+INSERT INTO Profesor(ID_Profesor, CNP, Nr_Lucrari,Vechime) VALUES (17,'2975374894020', 11, 26);
+INSERT INTO Profesor(ID_Profesor, CNP, Nr_Lucrari,Vechime) VALUES (18,'1975374894021', 8, 15);
+INSERT INTO Profesor(ID_Profesor, CNP, Nr_Lucrari,Vechime) VALUES (19,'2975374894022', 3, 5);
+INSERT INTO Profesor(ID_Profesor, CNP, Nr_Lucrari,Vechime) VALUES (20,'2975374894023', 9, 15);
+INSERT INTO Profesor(ID_Profesor, CNP, Nr_Lucrari,Vechime) VALUES (21,'2975374894024', 15, 36);
+INSERT INTO Profesor(ID_Profesor, CNP, Nr_Lucrari,Vechime) VALUES (22,'1975374894025', 6, 14);
+INSERT INTO Profesor(ID_Profesor, CNP, Nr_Lucrari,Vechime) VALUES (23,'1975374894026', 7, 11);
+INSERT INTO Profesor(ID_Profesor, CNP, Nr_Lucrari,Vechime) VALUES (24,'2975374894027', 15, 29);
+INSERT INTO Profesor(ID_Profesor, CNP, Nr_Lucrari,Vechime) VALUES (25,'1975374894028', 8, 15);
+INSERT INTO Profesor(ID_Profesor, CNP, Nr_Lucrari,Vechime) VALUES (26,'1975374894029', 13, 26);
+INSERT INTO Profesor(ID_Profesor, CNP, Nr_Lucrari,Vechime) VALUES (27,'2975374894030', 5, 10);
+INSERT INTO Profesor(ID_Profesor, CNP, Nr_Lucrari,Vechime) VALUES (28,'1975374894032', 12, 24);
+INSERT INTO Profesor(ID_Profesor, CNP, Nr_Lucrari,Vechime) VALUES (29,'2975374894033', 8, 16);
+INSERT INTO Profesor(ID_Profesor, CNP, Nr_Lucrari,Vechime) VALUES (30,'1975374894034', 9, 18);
+INSERT INTO Profesor(ID_Profesor, CNP, Nr_Lucrari,Vechime) VALUES (31,'2975374894035', 4, 8);
+INSERT INTO Profesor(ID_Profesor, CNP, Nr_Lucrari,Vechime) VALUES (32,'1975374894036', 8, 16);
+INSERT INTO Profesor(ID_Profesor, CNP, Nr_Lucrari,Vechime) VALUES (33,'2975374894037', 12, 24);
+INSERT INTO Profesor(ID_Profesor, CNP, Nr_Lucrari,Vechime) VALUES (34,'2975374894038', 8, 16);
+INSERT INTO Profesor(ID_Profesor, CNP, Nr_Lucrari,Vechime) VALUES (35,'1975374894039', 17, 34);
+INSERT INTO Profesor(ID_Profesor, CNP, Nr_Lucrari,Vechime) VALUES (36,'2975374894040', 20, 40);
+INSERT INTO Profesor(ID_Profesor, CNP, Nr_Lucrari,Vechime) VALUES (37,'2975374894041', 21, 42);
+INSERT INTO Profesor(ID_Profesor, CNP, Nr_Lucrari,Vechime) VALUES (38,'1975374894042', 20, 40);
+INSERT INTO Profesor(ID_Profesor, CNP, Nr_Lucrari,Vechime) VALUES (39,'1975374894043', 9, 18);
+INSERT INTO Profesor(ID_Profesor, CNP, Nr_Lucrari,Vechime) VALUES (40,'2975374894044', 10, 23);
+INSERT INTO Profesor(ID_Profesor, CNP, Nr_Lucrari,Vechime) VALUES (41,'2975374894045', 8, 15);
+INSERT INTO Profesor(ID_Profesor, CNP, Nr_Lucrari,Vechime) VALUES (42,'1975374894046', 12, 24);
+INSERT INTO Profesor(ID_Profesor, CNP, Nr_Lucrari,Vechime) VALUES (43,'2975374894047', 6, 14);
+INSERT INTO Profesor(ID_Profesor, CNP, Nr_Lucrari,Vechime) VALUES (44,'2975374894048', 13, 26);
+INSERT INTO Profesor(ID_Profesor, CNP, Nr_Lucrari,Vechime) VALUES (45,'1975374894049', 8, 15);
+INSERT INTO Profesor(ID_Profesor, CNP, Nr_Lucrari,Vechime) VALUES (46,'2975374894050', 12, 26);
+INSERT INTO Profesor(ID_Profesor, CNP, Nr_Lucrari,Vechime) VALUES (47,'1975374894051', 5, 14);
+INSERT INTO Profesor(ID_Profesor, CNP, Nr_Lucrari,Vechime) VALUES (48,'2975374894052', 4, 12);
+INSERT INTO Profesor(ID_Profesor, CNP, Nr_Lucrari,Vechime) VALUES (49,'1975374894053', 8, 18);
+INSERT INTO Profesor(ID_Profesor, CNP, Nr_Lucrari,Vechime) VALUES (50,'2975374894054', 9, 19);
+end;
+/
+
+begin
+INSERT INTO Materie(ID_Materie, Nume) VALUES (1, 'Drept penal general');
+INSERT INTO Materie(ID_Materie, Nume) VALUES (2, 'Criminologie');
+INSERT INTO Materie(ID_Materie, Nume) VALUES (3, 'Drept administrativ');
+INSERT INTO Materie(ID_Materie, Nume) VALUES (4, 'Drept comercial');
+INSERT INTO Materie(ID_Materie, Nume) VALUES (5, 'Zootehnie');
+INSERT INTO Materie(ID_Materie, Nume) VALUES (6, 'Fiziologia plantelor');
+INSERT INTO Materie(ID_Materie, Nume) VALUES (7, 'Botanica');
+INSERT INTO Materie(ID_Materie, Nume) VALUES (8, 'Politici sociale');
+INSERT INTO Materie(ID_Materie, Nume) VALUES (9, 'Istoria sociologiei');
+INSERT INTO Materie(ID_Materie, Nume) VALUES (10, 'Electrotehnica');
+INSERT INTO Materie(ID_Materie, Nume) VALUES (11, 'Programarea orientata pe obiecte');
+INSERT INTO Materie(ID_Materie, Nume) VALUES (12, 'Proiectarea bazelor de date');
+INSERT INTO Materie(ID_Materie, Nume) VALUES (13, 'Inteligenta artificiala');
+INSERT INTO Materie(ID_Materie, Nume) VALUES (14, 'Electronica');
+INSERT INTO Materie(ID_Materie, Nume) VALUES (15, 'Chimie organica');
+INSERT INTO Materie(ID_Materie, Nume) VALUES (16, 'Cinetica chimica');
+INSERT INTO Materie(ID_Materie, Nume) VALUES (17, 'Literatura universala');
+INSERT INTO Materie(ID_Materie, Nume) VALUES (18, 'Germana');
+INSERT INTO Materie(ID_Materie, Nume) VALUES (19, 'Fonetica');
+INSERT INTO Materie(ID_Materie, Nume) VALUES (20, 'Istoria bisericii universale');
+INSERT INTO Materie(ID_Materie, Nume) VALUES (21, 'Istoria religiilor');
+INSERT INTO Materie(ID_Materie, Nume) VALUES (22, 'Bazele bisericii romano-catolice');
+INSERT INTO Materie(ID_Materie, Nume) VALUES (23, 'Algoritmica grafurilor');
+INSERT INTO Materie(ID_Materie, Nume) VALUES (24, 'Retele de calculatoare');
+INSERT INTO Materie(ID_Materie, Nume) VALUES (25, 'Probabilitati si statistica');
+INSERT INTO Materie(ID_Materie, Nume) VALUES (26, 'Atletism');
+INSERT INTO Materie(ID_Materie, Nume) VALUES (27, 'Baschet');
+INSERT INTO Materie(ID_Materie, Nume) VALUES (28, 'Bazele kinetoterapiei');
+INSERT INTO Materie(ID_Materie, Nume) VALUES (29, 'Bazele mecanicii');
+INSERT INTO Materie(ID_Materie, Nume) VALUES (30, 'Tehnologia materialelor');
+INSERT INTO Materie(ID_Materie, Nume) VALUES (31, 'Mecanisme');
+INSERT INTO Materie(ID_Materie, Nume) VALUES (32, 'Bazele biologiei moleculare');
+INSERT INTO Materie(ID_Materie, Nume) VALUES (33, 'Biologie vegetala');
+INSERT INTO Materie(ID_Materie, Nume) VALUES (34, 'Biologie animala');
+INSERT INTO Materie(ID_Materie, Nume) VALUES (35, 'Medicina interna');
+INSERT INTO Materie(ID_Materie, Nume) VALUES (36, 'Anatomie maxio-faciala');
+INSERT INTO Materie(ID_Materie, Nume) VALUES (37, 'Chimie moleculara');
+INSERT INTO Materie(ID_Materie, Nume) VALUES (38, 'Bazele ingineriei aerospatiale');
+INSERT INTO Materie(ID_Materie, Nume) VALUES (39, 'Sisteme electrice incorporate');
+INSERT INTO Materie(ID_Materie, Nume) VALUES (40, 'Fizica');
+INSERT INTO Materie(ID_Materie, Nume) VALUES (41, 'Economie');
+INSERT INTO Materie(ID_Materie, Nume) VALUES (42, 'Contabilitate si gestiune fiscala');
+INSERT INTO Materie(ID_Materie, Nume) VALUES (43, 'Economie monetara');
+INSERT INTO Materie(ID_Materie, Nume) VALUES (44, 'Arhitectura urbana');
+INSERT INTO Materie(ID_Materie, Nume) VALUES (45, 'Design interior');
+INSERT INTO Materie(ID_Materie, Nume) VALUES (46, 'Arhitectura peisagistica');
+INSERT INTO Materie(ID_Materie, Nume) VALUES (47, 'Fotojurnalism');
+INSERT INTO Materie(ID_Materie, Nume) VALUES (48, 'Multimedia');
+INSERT INTO Materie(ID_Materie, Nume) VALUES (49, 'Comunicare si dezbatere');
+INSERT INTO Materie(ID_Materie, Nume) VALUES (50, 'Istoria universala');
+INSERT INTO Materie(ID_Materie, Nume) VALUES (51, 'Istoria Romaniei');
+INSERT INTO Materie(ID_Materie, Nume) VALUES (52, 'Psihologie clinica');
+INSERT INTO Materie(ID_Materie, Nume) VALUES (53, 'Psihologie organizationala');
+INSERT INTO Materie(ID_Materie, Nume) VALUES (54, 'Psihotraumatologie');
+end;
+/
+
+begin
+INSERT INTO Mat_Prof(ID_Materie, ID_Profesor) VALUES (1, 1);
+INSERT INTO Mat_Prof(ID_Materie, ID_Profesor) VALUES (2, 1);
+INSERT INTO Mat_Prof(ID_Materie, ID_Profesor) VALUES (3, 2);
+INSERT INTO Mat_Prof(ID_Materie, ID_Profesor) VALUES (4, 2);
+INSERT INTO Mat_Prof(ID_Materie, ID_Profesor) VALUES (5, 3);
+INSERT INTO Mat_Prof(ID_Materie, ID_Profesor) VALUES (6, 3);
+INSERT INTO Mat_Prof(ID_Materie, ID_Profesor) VALUES (7, 4);
+INSERT INTO Mat_Prof(ID_Materie, ID_Profesor) VALUES (8, 5);
+INSERT INTO Mat_Prof(ID_Materie, ID_Profesor) VALUES (9, 5);
+INSERT INTO Mat_Prof(ID_Materie, ID_Profesor) VALUES (10, 6);
+INSERT INTO Mat_Prof(ID_Materie, ID_Profesor) VALUES (11, 7);
+INSERT INTO Mat_Prof(ID_Materie, ID_Profesor) VALUES (12, 8);
+INSERT INTO Mat_Prof(ID_Materie, ID_Profesor) VALUES (13, 9);
+INSERT INTO Mat_Prof(ID_Materie, ID_Profesor) VALUES (14, 10);
+INSERT INTO Mat_Prof(ID_Materie, ID_Profesor) VALUES (15, 11);
+INSERT INTO Mat_Prof(ID_Materie, ID_Profesor) VALUES (16, 12);
+INSERT INTO Mat_Prof(ID_Materie, ID_Profesor) VALUES (17, 13);
+INSERT INTO Mat_Prof(ID_Materie, ID_Profesor) VALUES (18, 14);
+INSERT INTO Mat_Prof(ID_Materie, ID_Profesor) VALUES (19, 15);
+INSERT INTO Mat_Prof(ID_Materie, ID_Profesor) VALUES (20, 16);
+INSERT INTO Mat_Prof(ID_Materie, ID_Profesor) VALUES (21, 17);
+INSERT INTO Mat_Prof(ID_Materie, ID_Profesor) VALUES (22, 18);
+INSERT INTO Mat_Prof(ID_Materie, ID_Profesor) VALUES (23, 19);
+INSERT INTO Mat_Prof(ID_Materie, ID_Profesor) VALUES (24, 20);
+INSERT INTO Mat_Prof(ID_Materie, ID_Profesor) VALUES (25, 21);
+INSERT INTO Mat_Prof(ID_Materie, ID_Profesor) VALUES (26, 22);
+INSERT INTO Mat_Prof(ID_Materie, ID_Profesor) VALUES (27, 23);
+INSERT INTO Mat_Prof(ID_Materie, ID_Profesor) VALUES (28, 24);
+INSERT INTO Mat_Prof(ID_Materie, ID_Profesor) VALUES (29, 25);
+INSERT INTO Mat_Prof(ID_Materie, ID_Profesor) VALUES (30, 26);
+INSERT INTO Mat_Prof(ID_Materie, ID_Profesor) VALUES (31, 27);
+INSERT INTO Mat_Prof(ID_Materie, ID_Profesor) VALUES (32, 28);
+INSERT INTO Mat_Prof(ID_Materie, ID_Profesor) VALUES (33, 29);
+INSERT INTO Mat_Prof(ID_Materie, ID_Profesor) VALUES (34, 30);
+INSERT INTO Mat_Prof(ID_Materie, ID_Profesor) VALUES (35, 31);
+INSERT INTO Mat_Prof(ID_Materie, ID_Profesor) VALUES (36, 32);
+INSERT INTO Mat_Prof(ID_Materie, ID_Profesor) VALUES (37, 33);
+INSERT INTO Mat_Prof(ID_Materie, ID_Profesor) VALUES (38, 34);
+INSERT INTO Mat_Prof(ID_Materie, ID_Profesor) VALUES (39, 35);
+INSERT INTO Mat_Prof(ID_Materie, ID_Profesor) VALUES (40, 36);
+INSERT INTO Mat_Prof(ID_Materie, ID_Profesor) VALUES (41, 37);
+INSERT INTO Mat_Prof(ID_Materie, ID_Profesor) VALUES (42, 38);
+INSERT INTO Mat_Prof(ID_Materie, ID_Profesor) VALUES (43, 39);
+INSERT INTO Mat_Prof(ID_Materie, ID_Profesor) VALUES (44, 40);
+INSERT INTO Mat_Prof(ID_Materie, ID_Profesor) VALUES (45, 41);
+INSERT INTO Mat_Prof(ID_Materie, ID_Profesor) VALUES (46, 42);
+INSERT INTO Mat_Prof(ID_Materie, ID_Profesor) VALUES (47, 43);
+INSERT INTO Mat_Prof(ID_Materie, ID_Profesor) VALUES (48, 44);
+INSERT INTO Mat_Prof(ID_Materie, ID_Profesor) VALUES (49, 45);
+INSERT INTO Mat_Prof(ID_Materie, ID_Profesor) VALUES (50, 46);
+INSERT INTO Mat_Prof(ID_Materie, ID_Profesor) VALUES (51, 47);
+INSERT INTO Mat_Prof(ID_Materie, ID_Profesor) VALUES (52, 48);
+INSERT INTO Mat_Prof(ID_Materie, ID_Profesor) VALUES (53, 49);
+INSERT INTO Mat_Prof(ID_Materie, ID_Profesor) VALUES (54, 50);
+end;
+/
+
+begin
+INSERT INTO Stud_Prof(Nr_Matricol, ID_Profesor) VALUES (1, 1);
+INSERT INTO Stud_Prof(Nr_Matricol, ID_Profesor) VALUES (1, 2);
+
+INSERT INTO Stud_Prof(Nr_Matricol, ID_Profesor) VALUES (2, 1);
+INSERT INTO Stud_Prof(Nr_Matricol, ID_Profesor) VALUES (2, 2);
+
+INSERT INTO Stud_Prof(Nr_Matricol, ID_Profesor) VALUES (3, 1);
+INSERT INTO Stud_Prof(Nr_Matricol, ID_Profesor) VALUES (3, 2);
+
+INSERT INTO Stud_Prof(Nr_Matricol, ID_Profesor) VALUES (4, 3);
+INSERT INTO Stud_Prof(Nr_Matricol, ID_Profesor) VALUES (4, 4);
+
+INSERT INTO Stud_Prof(Nr_Matricol, ID_Profesor) VALUES (5, 3);
+INSERT INTO Stud_Prof(Nr_Matricol, ID_Profesor) VALUES (5, 4);
+
+INSERT INTO Stud_Prof(Nr_Matricol, ID_Profesor) VALUES (6, 3);
+INSERT INTO Stud_Prof(Nr_Matricol, ID_Profesor) VALUES (6, 4);
+
+INSERT INTO Stud_Prof(Nr_Matricol, ID_Profesor) VALUES (7, 5);
+
+INSERT INTO Stud_Prof(Nr_Matricol, ID_Profesor) VALUES (8, 5);
+
+INSERT INTO Stud_Prof(Nr_Matricol, ID_Profesor) VALUES (9, 6);
+INSERT INTO Stud_Prof(Nr_Matricol, ID_Profesor) VALUES (9, 7);
+INSERT INTO Stud_Prof(Nr_Matricol, ID_Profesor) VALUES (9, 8);
+INSERT INTO Stud_Prof(Nr_Matricol, ID_Profesor) VALUES (9, 10);
+
+INSERT INTO Stud_Prof(Nr_Matricol, ID_Profesor) VALUES (10, 6);
+INSERT INTO Stud_Prof(Nr_Matricol, ID_Profesor) VALUES (10, 7);
+INSERT INTO Stud_Prof(Nr_Matricol, ID_Profesor) VALUES (10, 8);
+INSERT INTO Stud_Prof(Nr_Matricol, ID_Profesor) VALUES (10, 9);
+INSERT INTO Stud_Prof(Nr_Matricol, ID_Profesor) VALUES (10, 10);
+
+INSERT INTO Stud_Prof(Nr_Matricol, ID_Profesor) VALUES (11, 6);
+INSERT INTO Stud_Prof(Nr_Matricol, ID_Profesor) VALUES (11, 7);
+INSERT INTO Stud_Prof(Nr_Matricol, ID_Profesor) VALUES (11, 8);
+INSERT INTO Stud_Prof(Nr_Matricol, ID_Profesor) VALUES (11, 9);
+INSERT INTO Stud_Prof(Nr_Matricol, ID_Profesor) VALUES (11, 10);
+
+INSERT INTO Stud_Prof(Nr_Matricol, ID_Profesor) VALUES (12, 6);
+INSERT INTO Stud_Prof(Nr_Matricol, ID_Profesor) VALUES (12, 8);
+INSERT INTO Stud_Prof(Nr_Matricol, ID_Profesor) VALUES (12, 10);
+
+INSERT INTO Stud_Prof(Nr_Matricol, ID_Profesor) VALUES (13, 11);
+INSERT INTO Stud_Prof(Nr_Matricol, ID_Profesor) VALUES (13, 12);
+
+INSERT INTO Stud_Prof(Nr_Matricol, ID_Profesor) VALUES (14, 11);
+INSERT INTO Stud_Prof(Nr_Matricol, ID_Profesor) VALUES (14, 12);
+
+INSERT INTO Stud_Prof(Nr_Matricol, ID_Profesor) VALUES (15, 13);
+INSERT INTO Stud_Prof(Nr_Matricol, ID_Profesor) VALUES (15, 15);
+
+INSERT INTO Stud_Prof(Nr_Matricol, ID_Profesor) VALUES (16, 13);
+INSERT INTO Stud_Prof(Nr_Matricol, ID_Profesor) VALUES (16, 14);
+INSERT INTO Stud_Prof(Nr_Matricol, ID_Profesor) VALUES (16, 15);
+
+INSERT INTO Stud_Prof(Nr_Matricol, ID_Profesor) VALUES (17, 16);
+INSERT INTO Stud_Prof(Nr_Matricol, ID_Profesor) VALUES (17, 17);
+
+INSERT INTO Stud_Prof(Nr_Matricol, ID_Profesor) VALUES (18, 16);
+INSERT INTO Stud_Prof(Nr_Matricol, ID_Profesor) VALUES (18, 17);
+
+INSERT INTO Stud_Prof(Nr_Matricol, ID_Profesor) VALUES (19, 16);
+
+INSERT INTO Stud_Prof(Nr_Matricol, ID_Profesor) VALUES (20, 18);
+
+INSERT INTO Stud_Prof(Nr_Matricol, ID_Profesor) VALUES (21, 19);
+INSERT INTO Stud_Prof(Nr_Matricol, ID_Profesor) VALUES (21, 20);
+INSERT INTO Stud_Prof(Nr_Matricol, ID_Profesor) VALUES (21, 21);
+
+INSERT INTO Stud_Prof(Nr_Matricol, ID_Profesor) VALUES (22, 19);
+INSERT INTO Stud_Prof(Nr_Matricol, ID_Profesor) VALUES (22, 20);
+INSERT INTO Stud_Prof(Nr_Matricol, ID_Profesor) VALUES (22, 21);
+
+INSERT INTO Stud_Prof(Nr_Matricol, ID_Profesor) VALUES (23, 19);
+INSERT INTO Stud_Prof(Nr_Matricol, ID_Profesor) VALUES (23, 20);
+INSERT INTO Stud_Prof(Nr_Matricol, ID_Profesor) VALUES (23, 21);
+
+INSERT INTO Stud_Prof(Nr_Matricol, ID_Profesor) VALUES (24, 22);
+INSERT INTO Stud_Prof(Nr_Matricol, ID_Profesor) VALUES (24, 23);
+INSERT INTO Stud_Prof(Nr_Matricol, ID_Profesor) VALUES (24, 24);
+
+INSERT INTO Stud_Prof(Nr_Matricol, ID_Profesor) VALUES (25, 22);
+INSERT INTO Stud_Prof(Nr_Matricol, ID_Profesor) VALUES (25, 23);
+INSERT INTO Stud_Prof(Nr_Matricol, ID_Profesor) VALUES (25, 24);
+
+INSERT INTO Stud_Prof(Nr_Matricol, ID_Profesor) VALUES (26, 22);
+INSERT INTO Stud_Prof(Nr_Matricol, ID_Profesor) VALUES (26, 23);
+
+INSERT INTO Stud_Prof(Nr_Matricol, ID_Profesor) VALUES (27, 25);
+INSERT INTO Stud_Prof(Nr_Matricol, ID_Profesor) VALUES (27, 26);
+INSERT INTO Stud_Prof(Nr_Matricol, ID_Profesor) VALUES (27, 27);
+
+INSERT INTO Stud_Prof(Nr_Matricol, ID_Profesor) VALUES (28, 25);
+INSERT INTO Stud_Prof(Nr_Matricol, ID_Profesor) VALUES (28, 26);
+INSERT INTO Stud_Prof(Nr_Matricol, ID_Profesor) VALUES (28, 27);
+
+INSERT INTO Stud_Prof(Nr_Matricol, ID_Profesor) VALUES (29, 25);
+INSERT INTO Stud_Prof(Nr_Matricol, ID_Profesor) VALUES (29, 26);
+
+INSERT INTO Stud_Prof(Nr_Matricol, ID_Profesor) VALUES (30, 28);
+INSERT INTO Stud_Prof(Nr_Matricol, ID_Profesor) VALUES (30, 29);
+
+INSERT INTO Stud_Prof(Nr_Matricol, ID_Profesor) VALUES (31, 28);
+INSERT INTO Stud_Prof(Nr_Matricol, ID_Profesor) VALUES (31, 29);
+
+INSERT INTO Stud_Prof(Nr_Matricol, ID_Profesor) VALUES (32, 28);
+INSERT INTO Stud_Prof(Nr_Matricol, ID_Profesor) VALUES (32, 30);
+
+INSERT INTO Stud_Prof(Nr_Matricol, ID_Profesor) VALUES (33, 31);
+INSERT INTO Stud_Prof(Nr_Matricol, ID_Profesor) VALUES (33, 32);
+
+INSERT INTO Stud_Prof(Nr_Matricol, ID_Profesor) VALUES (34, 31);
+INSERT INTO Stud_Prof(Nr_Matricol, ID_Profesor) VALUES (34, 33);
+
+INSERT INTO Stud_Prof(Nr_Matricol, ID_Profesor) VALUES (35, 34);
+INSERT INTO Stud_Prof(Nr_Matricol, ID_Profesor) VALUES (35, 35);
+INSERT INTO Stud_Prof(Nr_Matricol, ID_Profesor) VALUES (35, 36);
+
+INSERT INTO Stud_Prof(Nr_Matricol, ID_Profesor) VALUES (36, 34);
+INSERT INTO Stud_Prof(Nr_Matricol, ID_Profesor) VALUES (36, 35);
+INSERT INTO Stud_Prof(Nr_Matricol, ID_Profesor) VALUES (36, 36);
+
+INSERT INTO Stud_Prof(Nr_Matricol, ID_Profesor) VALUES (37, 34);
+INSERT INTO Stud_Prof(Nr_Matricol, ID_Profesor) VALUES (37, 36);
+
+INSERT INTO Stud_Prof(Nr_Matricol, ID_Profesor) VALUES (38, 37);
+INSERT INTO Stud_Prof(Nr_Matricol, ID_Profesor) VALUES (38, 38);
+INSERT INTO Stud_Prof(Nr_Matricol, ID_Profesor) VALUES (38, 39);
+
+INSERT INTO Stud_Prof(Nr_Matricol, ID_Profesor) VALUES (39, 37);
+INSERT INTO Stud_Prof(Nr_Matricol, ID_Profesor) VALUES (39, 38);
+INSERT INTO Stud_Prof(Nr_Matricol, ID_Profesor) VALUES (39, 39);
+
+INSERT INTO Stud_Prof(Nr_Matricol, ID_Profesor) VALUES (40, 37);
+INSERT INTO Stud_Prof(Nr_Matricol, ID_Profesor) VALUES (40, 39);
+
+INSERT INTO Stud_Prof(Nr_Matricol, ID_Profesor) VALUES (41, 40);
+INSERT INTO Stud_Prof(Nr_Matricol, ID_Profesor) VALUES (41, 41);u
+
+INSERT INTO Stud_Prof(Nr_Matricol, ID_Profesor) VALUES (42, 40);
+INSERT INTO Stud_Prof(Nr_Matricol, ID_Profesor) VALUES (42, 41);
+
+INSERT INTO Stud_Prof(Nr_Matricol, ID_Profesor) VALUES (43, 40);
+INSERT INTO Stud_Prof(Nr_Matricol, ID_Profesor) VALUES (43, 42);
+
+INSERT INTO Stud_Prof(Nr_Matricol, ID_Profesor) VALUES (44, 43);
+INSERT INTO Stud_Prof(Nr_Matricol, ID_Profesor) VALUES (44, 44);
+INSERT INTO Stud_Prof(Nr_Matricol, ID_Profesor) VALUES (44, 45);
+
+INSERT INTO Stud_Prof(Nr_Matricol, ID_Profesor) VALUES (45, 43);
+INSERT INTO Stud_Prof(Nr_Matricol, ID_Profesor) VALUES (45, 44);
+INSERT INTO Stud_Prof(Nr_Matricol, ID_Profesor) VALUES (45, 45);
+
+INSERT INTO Stud_Prof(Nr_Matricol, ID_Profesor) VALUES (46, 46);
+INSERT INTO Stud_Prof(Nr_Matricol, ID_Profesor) VALUES (46, 47);
+
+INSERT INTO Stud_Prof(Nr_Matricol, ID_Profesor) VALUES (47, 46);
+INSERT INTO Stud_Prof(Nr_Matricol, ID_Profesor) VALUES (47, 47);
+
+INSERT INTO Stud_Prof(Nr_Matricol, ID_Profesor) VALUES (48, 48);
+INSERT INTO Stud_Prof(Nr_Matricol, ID_Profesor) VALUES (48, 49);
+INSERT INTO Stud_Prof(Nr_Matricol, ID_Profesor) VALUES (48, 50);
+
+INSERT INTO Stud_Prof(Nr_Matricol, ID_Profesor) VALUES (49, 48);
+INSERT INTO Stud_Prof(Nr_Matricol, ID_Profesor) VALUES (49, 49);
+INSERT INTO Stud_Prof(Nr_Matricol, ID_Profesor) VALUES (49, 50);
+
+INSERT INTO Stud_Prof(Nr_Matricol, ID_Profesor) VALUES (50, 48);
+INSERT INTO Stud_Prof(Nr_Matricol, ID_Profesor) VALUES (50, 49);
+INSERT INTO Stud_Prof(Nr_Matricol, ID_Profesor) VALUES (50, 50);
+end;
+/
+
+begin
+INSERT INTO Stud_Mat(ID_Materie, Nr_Matricol, Nota, Data) VALUES (1, 1, 8, '01-02-2018'); 
+INSERT INTO Stud_Mat(ID_Materie, Nr_Matricol, Nota, Data) VALUES (1, 2, 7, '01-02-2018');
+INSERT INTO Stud_Mat(ID_Materie, Nr_Matricol, Nota, Data) VALUES (1, 3, 9, '01-02-2018');
+INSERT INTO Stud_Mat(ID_Materie, Nr_Matricol, Nota, Data) VALUES (2, 1, 5, '02-14-2018');
+INSERT INTO Stud_Mat(ID_Materie, Nr_Matricol, Nota, Data) VALUES (2, 2, 6, '02-14-2018');
+INSERT INTO Stud_Mat(ID_Materie, Nr_Matricol, Nota, Data) VALUES (3, 1, 7, '02-14-2018');
+INSERT INTO Stud_Mat(ID_Materie, Nr_Matricol, Nota, Data) VALUES (3, 2, 8, '02-18-2018');
+INSERT INTO Stud_Mat(ID_Materie, Nr_Matricol, Nota, Data) VALUES (3, 3, 4, '02-18-2018');
+INSERT INTO Stud_Mat(ID_Materie, Nr_Matricol, Nota, Data) VALUES (4, 1, 6, '02-18-2018');
+INSERT INTO Stud_Mat(ID_Materie, Nr_Matricol, Nota, Data) VALUES (4, 2, 7, '02-11-2018');
+INSERT INTO Stud_Mat(ID_Materie, Nr_Matricol, Nota, Data) VALUES (4, 3, 8, '02-11-2018');
+INSERT INTO Stud_Mat(ID_Materie, Nr_Matricol, Nota, Data) VALUES (5, 4, 10, '02-11-2018');
+INSERT INTO Stud_Mat(ID_Materie, Nr_Matricol, Nota, Data) VALUES (5, 5, 8, '01-02-2018');
+INSERT INTO Stud_Mat(ID_Materie, Nr_Matricol, Nota, Data) VALUES (5, 6, 7, '01-02-2018');
+INSERT INTO Stud_Mat(ID_Materie, Nr_Matricol, Nota, Data) VALUES (6, 4, 9, '01-02-2018');
+INSERT INTO Stud_Mat(ID_Materie, Nr_Matricol, Nota, Data) VALUES (6, 5, 5, '02-14-2018');
+INSERT INTO Stud_Mat(ID_Materie, Nr_Matricol, Nota, Data) VALUES (7, 4, 6, '02-14-2018');
+INSERT INTO Stud_Mat(ID_Materie, Nr_Matricol, Nota, Data) VALUES (7, 5, 7, '02-14-2018');
+INSERT INTO Stud_Mat(ID_Materie, Nr_Matricol, Nota, Data) VALUES (7, 6, 8, '02-18-2018');
+INSERT INTO Stud_Mat(ID_Materie, Nr_Matricol, Nota, Data) VALUES (8, 7, 4, '02-18-2018');
+INSERT INTO Stud_Mat(ID_Materie, Nr_Matricol, Nota, Data) VALUES (8, 8, 6, '02-18-2018');
+INSERT INTO Stud_Mat(ID_Materie, Nr_Matricol, Nota, Data) VALUES (9, 7, 7, '02-11-2018');
+INSERT INTO Stud_Mat(ID_Materie, Nr_Matricol, Nota, Data) VALUES (9, 8, 8, '02-11-2018');
+INSERT INTO Stud_Mat(ID_Materie, Nr_Matricol, Nota, Data) VALUES (10, 9, 10, '02-11-2018');
+INSERT INTO Stud_Mat(ID_Materie, Nr_Matricol, Nota, Data) VALUES (10, 10, 8, '01-02-2018');
+INSERT INTO Stud_Mat(ID_Materie, Nr_Matricol, Nota, Data) VALUES (10, 11, 7, '01-02-2018');
+INSERT INTO Stud_Mat(ID_Materie, Nr_Matricol, Nota, Data) VALUES (10, 12, 9, '01-02-2018');
+INSERT INTO Stud_Mat(ID_Materie, Nr_Matricol, Nota, Data) VALUES (11, 9, 5, '02-14-2018');
+INSERT INTO Stud_Mat(ID_Materie, Nr_Matricol, Nota, Data) VALUES (11, 10, 6, '02-14-2018');
+INSERT INTO Stud_Mat(ID_Materie, Nr_Matricol, Nota, Data) VALUES (11, 11, 7, '02-14-2018');
+INSERT INTO Stud_Mat(ID_Materie, Nr_Matricol, Nota, Data) VALUES (12, 9, 8, '02-18-2018');
+INSERT INTO Stud_Mat(ID_Materie, Nr_Matricol, Nota, Data) VALUES (12, 10, 4, '02-18-2018');
+INSERT INTO Stud_Mat(ID_Materie, Nr_Matricol, Nota, Data) VALUES (12, 11, 6, '02-18-2018');
+INSERT INTO Stud_Mat(ID_Materie, Nr_Matricol, Nota, Data) VALUES (12, 12, 7, '02-11-2018');
+INSERT INTO Stud_Mat(ID_Materie, Nr_Matricol, Nota, Data) VALUES (13, 10, 8, '02-11-2018');
+INSERT INTO Stud_Mat(ID_Materie, Nr_Matricol, Nota, Data) VALUES (13, 11, 10, '02-11-2018');
+INSERT INTO Stud_Mat(ID_Materie, Nr_Matricol, Nota, Data) VALUES (14, 9, 8, '01-02-2018');
+INSERT INTO Stud_Mat(ID_Materie, Nr_Matricol, Nota, Data) VALUES (14, 10, 7, '01-02-2018');
+INSERT INTO Stud_Mat(ID_Materie, Nr_Matricol, Nota, Data) VALUES (14, 11, 9, '01-02-2018');
+INSERT INTO Stud_Mat(ID_Materie, Nr_Matricol, Nota, Data) VALUES (14, 12, 5, '02-14-2018');
+INSERT INTO Stud_Mat(ID_Materie, Nr_Matricol, Nota, Data) VALUES (15, 13, 6, '02-14-2018');
+INSERT INTO Stud_Mat(ID_Materie, Nr_Matricol, Nota, Data) VALUES (15, 14, 7, '02-14-2018');
+INSERT INTO Stud_Mat(ID_Materie, Nr_Matricol, Nota, Data) VALUES (16, 13, 8, '02-18-2018');
+INSERT INTO Stud_Mat(ID_Materie, Nr_Matricol, Nota, Data) VALUES (16, 14, 4, '02-18-2018');
+INSERT INTO Stud_Mat(ID_Materie, Nr_Matricol, Nota, Data) VALUES (17, 15, 6, '02-18-2018');
+INSERT INTO Stud_Mat(ID_Materie, Nr_Matricol, Nota, Data) VALUES (17, 16, 3, '02-11-2018');
+INSERT INTO Stud_Mat(ID_Materie, Nr_Matricol, Nota, Data) VALUES (18, 16, 8, '02-11-2018');
+INSERT INTO Stud_Mat(ID_Materie, Nr_Matricol, Nota, Data) VALUES (19, 15, 10, '02-11-2018');
+INSERT INTO Stud_Mat(ID_Materie, Nr_Matricol, Nota, Data) VALUES (19, 16, 8, '01-02-2018');
+INSERT INTO Stud_Mat(ID_Materie, Nr_Matricol, Nota, Data) VALUES (20, 17, 7, '01-02-2018');
+INSERT INTO Stud_Mat(ID_Materie, Nr_Matricol, Nota, Data) VALUES (20, 18, 9, '01-02-2018');
+INSERT INTO Stud_Mat(ID_Materie, Nr_Matricol, Nota, Data) VALUES (20, 19, 5, '02-14-2018');
+INSERT INTO Stud_Mat(ID_Materie, Nr_Matricol, Nota, Data) VALUES (21, 17, 6, '02-14-2018');
+INSERT INTO Stud_Mat(ID_Materie, Nr_Matricol, Nota, Data) VALUES (21, 18, 2, '02-14-2018');
+INSERT INTO Stud_Mat(ID_Materie, Nr_Matricol, Nota, Data) VALUES (22, 20, 8, '02-18-2018');
+INSERT INTO Stud_Mat(ID_Materie, Nr_Matricol, Nota, Data) VALUES (23, 21, 4, '02-18-2018');
+INSERT INTO Stud_Mat(ID_Materie, Nr_Matricol, Nota, Data) VALUES (23, 22, 6, '02-18-2018');
+INSERT INTO Stud_Mat(ID_Materie, Nr_Matricol, Nota, Data) VALUES (23, 23, 7, '02-11-2018');
+INSERT INTO Stud_Mat(ID_Materie, Nr_Matricol, Nota, Data) VALUES (24, 21, 8, '02-11-2018');
+INSERT INTO Stud_Mat(ID_Materie, Nr_Matricol, Nota, Data) VALUES (24, 22, 10, '02-11-2018');
+INSERT INTO Stud_Mat(ID_Materie, Nr_Matricol, Nota, Data) VALUES (24, 23, 7, '02-11-2018');
+INSERT INTO Stud_Mat(ID_Materie, Nr_Matricol, Nota, Data) VALUES (25, 21, 8, '02-11-2018');
+INSERT INTO Stud_Mat(ID_Materie, Nr_Matricol, Nota, Data) VALUES (25, 22, 10, '02-11-2018');
+INSERT INTO Stud_Mat(ID_Materie, Nr_Matricol, Nota, Data) VALUES (25, 23, 4, '01-02-2018');
+INSERT INTO Stud_Mat(ID_Materie, Nr_Matricol, Nota, Data) VALUES (26, 24, 7, '01-02-2018');
+INSERT INTO Stud_Mat(ID_Materie, Nr_Matricol, Nota, Data) VALUES (26, 25, 9, '01-02-2018');
+INSERT INTO Stud_Mat(ID_Materie, Nr_Matricol, Nota, Data) VALUES (26, 26, 5, '02-14-2018');
+INSERT INTO Stud_Mat(ID_Materie, Nr_Matricol, Nota, Data) VALUES (27, 24, 6, '02-14-2018');
+INSERT INTO Stud_Mat(ID_Materie, Nr_Matricol, Nota, Data) VALUES (27, 25, 7, '02-14-2018');
+INSERT INTO Stud_Mat(ID_Materie, Nr_Matricol, Nota, Data) VALUES (27, 26, 8, '02-18-2018');
+INSERT INTO Stud_Mat(ID_Materie, Nr_Matricol, Nota, Data) VALUES (28, 24, 4, '02-18-2018');
+INSERT INTO Stud_Mat(ID_Materie, Nr_Matricol, Nota, Data) VALUES (28, 25, 6, '02-18-2018');
+INSERT INTO Stud_Mat(ID_Materie, Nr_Matricol, Nota, Data) VALUES (29, 27, 7, '02-11-2018');
+INSERT INTO Stud_Mat(ID_Materie, Nr_Matricol, Nota, Data) VALUES (29, 28, 8, '02-11-2018');
+INSERT INTO Stud_Mat(ID_Materie, Nr_Matricol, Nota, Data) VALUES (29, 29, 10, '02-11-2018');
+INSERT INTO Stud_Mat(ID_Materie, Nr_Matricol, Nota, Data) VALUES (30, 27, 8, '01-02-2018');
+INSERT INTO Stud_Mat(ID_Materie, Nr_Matricol, Nota, Data) VALUES (30, 28, 7, '01-02-2018');
+INSERT INTO Stud_Mat(ID_Materie, Nr_Matricol, Nota, Data) VALUES (30, 29, 9, '01-02-2018');
+INSERT INTO Stud_Mat(ID_Materie, Nr_Matricol, Nota, Data) VALUES (31, 27, 5, '02-14-2018');
+INSERT INTO Stud_Mat(ID_Materie, Nr_Matricol, Nota, Data) VALUES (31, 28, 6, '02-14-2018');
+INSERT INTO Stud_Mat(ID_Materie, Nr_Matricol, Nota, Data) VALUES (32, 30, 7, '02-14-2018');
+INSERT INTO Stud_Mat(ID_Materie, Nr_Matricol, Nota, Data) VALUES (32, 31, 8, '02-18-2018');
+INSERT INTO Stud_Mat(ID_Materie, Nr_Matricol, Nota, Data) VALUES (32, 32, 4, '02-18-2018');
+INSERT INTO Stud_Mat(ID_Materie, Nr_Matricol, Nota, Data) VALUES (33, 30, 6, '02-18-2018');
+INSERT INTO Stud_Mat(ID_Materie, Nr_Matricol, Nota, Data) VALUES (33, 31, 7, '02-11-2018');
+INSERT INTO Stud_Mat(ID_Materie, Nr_Matricol, Nota, Data) VALUES (34, 32, 8, '02-11-2018');
+INSERT INTO Stud_Mat(ID_Materie, Nr_Matricol, Nota, Data) VALUES (35, 33, 10, '02-11-2018');
+INSERT INTO Stud_Mat(ID_Materie, Nr_Matricol, Nota, Data) VALUES (35, 34, 6, '02-14-2018');
+INSERT INTO Stud_Mat(ID_Materie, Nr_Matricol, Nota, Data) VALUES (36, 33, 8, '02-18-2018');
+INSERT INTO Stud_Mat(ID_Materie, Nr_Matricol, Nota, Data) VALUES (37, 34, 4, '02-18-2018');
+INSERT INTO Stud_Mat(ID_Materie, Nr_Matricol, Nota, Data) VALUES (38, 35, 6, '02-18-2018');
+INSERT INTO Stud_Mat(ID_Materie, Nr_Matricol, Nota, Data) VALUES (38, 36, 7, '02-11-2018');
+INSERT INTO Stud_Mat(ID_Materie, Nr_Matricol, Nota, Data) VALUES (38, 37, 8, '02-11-2018');
+INSERT INTO Stud_Mat(ID_Materie, Nr_Matricol, Nota, Data) VALUES (39, 35, 10, '02-11-2018');
+INSERT INTO Stud_Mat(ID_Materie, Nr_Matricol, Nota, Data) VALUES (39, 36, 8, '01-02-2018');
+INSERT INTO Stud_Mat(ID_Materie, Nr_Matricol, Nota, Data) VALUES (40, 35, 7, '01-02-2018');
+INSERT INTO Stud_Mat(ID_Materie, Nr_Matricol, Nota, Data) VALUES (40, 36, 9, '01-02-2018');
+INSERT INTO Stud_Mat(ID_Materie, Nr_Matricol, Nota, Data) VALUES (40, 37, 5, '02-14-2018');
+INSERT INTO Stud_Mat(ID_Materie, Nr_Matricol, Nota, Data) VALUES (41, 38, 6, '02-14-2018');
+INSERT INTO Stud_Mat(ID_Materie, Nr_Matricol, Nota, Data) VALUES (41, 39, 4, '02-14-2018');
+INSERT INTO Stud_Mat(ID_Materie, Nr_Matricol, Nota, Data) VALUES (41, 40, 8, '02-18-2018');
+INSERT INTO Stud_Mat(ID_Materie, Nr_Matricol, Nota, Data) VALUES (42, 38, 4, '02-18-2018');
+INSERT INTO Stud_Mat(ID_Materie, Nr_Matricol, Nota, Data) VALUES (42, 39, 6, '02-18-2018');
+INSERT INTO Stud_Mat(ID_Materie, Nr_Matricol, Nota, Data) VALUES (43, 38, 7, '02-11-2018');
+INSERT INTO Stud_Mat(ID_Materie, Nr_Matricol, Nota, Data) VALUES (43, 39, 8, '02-11-2018');
+INSERT INTO Stud_Mat(ID_Materie, Nr_Matricol, Nota, Data) VALUES (43, 40, 10, '02-11-2018');
+INSERT INTO Stud_Mat(ID_Materie, Nr_Matricol, Nota, Data) VALUES (44, 41, 7, '02-14-2018');
+INSERT INTO Stud_Mat(ID_Materie, Nr_Matricol, Nota, Data) VALUES (44, 42, 8, '02-18-2018');
+INSERT INTO Stud_Mat(ID_Materie, Nr_Matricol, Nota, Data) VALUES (44, 43, 4, '02-18-2018');
+INSERT INTO Stud_Mat(ID_Materie, Nr_Matricol, Nota, Data) VALUES (45, 41, 6, '02-18-2018');
+INSERT INTO Stud_Mat(ID_Materie, Nr_Matricol, Nota, Data) VALUES (45, 42, 7, '02-11-2018');
+INSERT INTO Stud_Mat(ID_Materie, Nr_Matricol, Nota, Data) VALUES (46, 43, 8, '02-11-2018');
+INSERT INTO Stud_Mat(ID_Materie, Nr_Matricol, Nota, Data) VALUES (47, 44, 10, '02-11-2018');
+INSERT INTO Stud_Mat(ID_Materie, Nr_Matricol, Nota, Data) VALUES (47, 45, 8, '01-02-2018');
+INSERT INTO Stud_Mat(ID_Materie, Nr_Matricol, Nota, Data) VALUES (48, 44, 7, '01-02-2018');
+INSERT INTO Stud_Mat(ID_Materie, Nr_Matricol, Nota, Data) VALUES (48, 45, 9, '01-02-2018');
+INSERT INTO Stud_Mat(ID_Materie, Nr_Matricol, Nota, Data) VALUES (49, 44, 5, '02-14-2018');
+INSERT INTO Stud_Mat(ID_Materie, Nr_Matricol, Nota, Data) VALUES (49, 45, 6, '02-14-2018');
+INSERT INTO Stud_Mat(ID_Materie, Nr_Matricol, Nota, Data) VALUES (50, 46, 7, '02-14-2018');
+INSERT INTO Stud_Mat(ID_Materie, Nr_Matricol, Nota, Data) VALUES (50, 47, 8, '02-18-2018');
+INSERT INTO Stud_Mat(ID_Materie, Nr_Matricol, Nota, Data) VALUES (51, 46, 4, '02-18-2018');
+INSERT INTO Stud_Mat(ID_Materie, Nr_Matricol, Nota, Data) VALUES (51, 47, 6, '02-18-2018');
+INSERT INTO Stud_Mat(ID_Materie, Nr_Matricol, Nota, Data) VALUES (52, 48, 7, '02-11-2018');
+INSERT INTO Stud_Mat(ID_Materie, Nr_Matricol, Nota, Data) VALUES (52, 49, 8, '02-11-2018');
+INSERT INTO Stud_Mat(ID_Materie, Nr_Matricol, Nota, Data) VALUES (52, 50, 10, '02-11-2018');
+INSERT INTO Stud_Mat(ID_Materie, Nr_Matricol, Nota, Data) VALUES (53, 48, 8, '02-18-2018');
+INSERT INTO Stud_Mat(ID_Materie, Nr_Matricol, Nota, Data) VALUES (53, 49, 4, '02-18-2018');
+INSERT INTO Stud_Mat(ID_Materie, Nr_Matricol, Nota, Data) VALUES (53, 50, 6, '02-18-2018');
+INSERT INTO Stud_Mat(ID_Materie, Nr_Matricol, Nota, Data) VALUES (54, 48, 7, '02-11-2018');
+INSERT INTO Stud_Mat(ID_Materie, Nr_Matricol, Nota, Data) VALUES (54, 49, 8, '02-11-2018');
+INSERT INTO Stud_Mat(ID_Materie, Nr_Matricol, Nota, Data) VALUES (54, 50, 10, '02-11-2018');
+end;
+/
+
+
+==============================================================================================================================
+                                                   INDEX
+==============================================================================================================================
+
+CREATE INDEX index_facultate  ON Facultate (ID_Facultate,ID_Secretariat,Nume,Adresa);
+
+
+
+
+==============================================================================================================================
+                                                   QUERY-URI
+==============================================================================================================================
+SELECT * FROM Student;
+
+SELECT Nume,Data_Nastere FROM Persoana;
+
+SELECT Nume, Prenume FROM Persoana ORDER BY Data_Nastere;
+
+SELECT Nume FROM Persoana ORDER BY Data_Nastere DESC;
+
+SELECT Nr_Lucrari FROM Profesor ORDER BY Vechime;
+
+SELECT CNP FROM Profesor WHERE Vechime > 5;
+
+SELECT Nr_Matricol FROM Student WHERE Anul = 3 AND Taxa='DA';
+
+SELECT Nume FROM Student,Persoana WHERE Anul = 1 AND Taxa='NU' OR Sex = 'M';
+
+SELECT Nume,Prenume FROM Profesor, Persoana WHERE Vechime BETWEEN 5 AND 10; 
+
+SELECT Nume,Prenume FROM Profesor, Persoana WHERE Vechime NOT BETWEEN 5 AND 15;
+
+SELECT Nume FROM Persoana WHERE LOWER(Nume) LIKE '%z%';
+
+SELECT Nume,Prenume FROM Persoana WHERE Sex = 'M' UNION SELECT Data_Nastere FROM Persoana WHERE Locul_Nasterii = 'Craiova, Dolj';
+
+SELECT pers.Nume, prof.Vechime FROM Persoana pers, Profesor prof WHERE prof.Nr_Lucrari > 10;
+
+SELECT Nume,Prenume, LENGTH(Nume)-LENGTH(TRANSLATE(Nume,'bo','b')) "numarul de i-uri din nume" FROM Persoana;
+
+SELECT Nume,Data_Nastere, TO_CHAR(Data_Nastere, '"ziua" DD, "luna" MONTH "si anul" YYYY') "Data nasterii" FROM Persoana;
+
+
+// 2 functii
+==============================================================================================================================
+                                                   FUNCTIA 1
+==============================================================================================================================
+
+CREATE OR REPLACE FUNCTION FindPersonBirthDate (name_in Persoana.Nume%Type)
+RETURN date
+IS myBirthDate date;
+
+BEGIN
+     SELECT Data_Nastere INTO myBirthDate FROM Persoana WHERE Nume = name_in;
+
+       RETURN myBirthDate;
+END;
+
+BEGIN 
+dbms_output.put_line(FindPersonBirthDate ('Mijea')); 
+END
+
+
+
+
+==============================================================================================================================
+                                                  FUNCTIA 2
+==============================================================================================================================
+
+CREATE OR REPLACE FUNCTION ScolarshipInfo (nr_matricol Student.Nr_Matricol%Type,an Student.Anul%Type)
+RETURN VARCHAR2 
+IS taxa VARCHAR2(3);
+   v_taxa VARCHAR2(3);
+
+BEGIN
+
+
+SELECT Taxa
+ INTO taxa
+ FROM Student
+ WHERE nr_matricol = Nr_Matricol AND an = Anul;
+
+v_taxa := taxa;
+ IF v_taxa = 'DA' THEN
+ RETURN 'Nu are bursa';
+
+ ELSE
+ RETURN 'Are bursa';
+ END IF;
+ END;
+
+BEGIN 
+dbms_output.put_line(ScolarshipInfo (1,3)); 
+END
+
+
+
+//2 proceduri stocate
+
+==============================================================================================================================
+                                                 PROCEDURA 1
+==============================================================================================================================
+CREATE OR REPLACE PROCEDURE toggle_tax(an_in Student.Anul%Type)
+IS
+BEGIN
+ UPDATE Student SET Taxa = 'NU'
+ Where an_in = Anul;
+END toggle_tax;
+
+
+begin
+
+toggle_tax(4);
+end
+
+==============================================================================================================================
+                                                 PROCEDURA 2
+==============================================================================================================================
+CREATE OR REPLACE PROCEDURE change_telefonNumber(secretariat_id Secretariat.ID_Secretariat%Type)
+IS
+BEGIN
+ UPDATE Secretariat SET Telefon = '0334564780'
+ Where secretariat_id = ID_Secretariat;
+END change_telefonNumber;
+
+
+begin
+
+change_telefonNumber(1);
+end
+
+
+
+
+==============================================================================================================================
+                                                 TRIGGER
+==============================================================================================================================
+
+CREATE OR REPLACE TRIGGER before_trigger
+BEFORE INSERT ON Test
+BEGIN
+ DBMS_OUTPUT.PUT_LINE('Before Insert Statement Level');
+END;
+
+INSERT INTO Test select * FROM Materie;
+
+CREATE TABLE Test (
+ ID_Materie NUMBER(5) PRIMARY KEY,
+ Nume VARCHAR2(50));
+
+
