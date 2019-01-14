@@ -864,7 +864,7 @@ end;
                                                    INDEX
 ==============================================================================================================================
 
-CREATE INDEX index_facultate  ON Facultate (ID_Facultate,ID_Secretariat,Nume,Adresa);
+CREATE INDEX index_facultate ON Facultate (ID_Facultate,ID_Secretariat,Nume,Adresa);
 
 
 
